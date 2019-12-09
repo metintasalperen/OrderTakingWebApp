@@ -8,11 +8,10 @@ namespace Business.Abstract
     public interface IOrderService
     {
         List<Order> GetAll();
-        /*
+        List<Order> GetByTableId(int tableId);
         void Add(Order order);
         void Update(Order order);
-        void Delete(int orderId);
-        ... all necessary services
-        */
+        // void Delete(int orderId);
+        void Delete(Order order);
     }
 }
