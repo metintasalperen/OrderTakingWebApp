@@ -11,7 +11,6 @@ namespace Business.Abstract
         List<Order> GetByTableId(int tableId);
         void Add(Order order);
         void Update(Order order);
-        // void Delete(int orderId);
-        void Delete(Order order);
+        void Delete(int orderId);
     }
 }

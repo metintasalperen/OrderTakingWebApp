@@ -31,13 +31,9 @@ namespace Business.Concrete
         {
             _orderDal.Update(order);
         }
-        /*public void Delete(int orderId)
+        public void Delete(int orderId)
         {
-            _orderDal.Delete(orderId);
-        }*/
-        public void Delete(Order order)
-        {
-            _orderDal.Delete(order);
+            _orderDal.Delete(new Order { OrderId = orderId });
         }
     }
 }
