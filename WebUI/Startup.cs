@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 
 namespace WebUI
 {
@@ -24,6 +28,10 @@ namespace WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc();
+
+            services.AddScoped<IMenuService, MenuManager>();
+            services.AddScoped<IMenuDal, EfMenuDal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
