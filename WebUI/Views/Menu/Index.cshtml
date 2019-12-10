@@ -1,4 +1,4 @@
-﻿
+﻿@model WebUI.Models.MenuViewModel
 @{
     Layout = null;
 }
@@ -11,6 +11,24 @@
     <title>Index</title>
 </head>
 <body>
-    <div>Hello World!</div>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Category</td>
+            <td>Availability</td>
+            <td>Explanation</td>
+            <td>Price</td>
+        </tr>
+        @foreach(var menu in Model.Menu)
+        {
+            <tr>
+                <td>@menu.Name</td>
+                <td>@menu.Category</td>
+                <td>@menu.IsAvailable</td>
+                <td>@if (menu.Explanation != null) { @menu.Explanation } </td>
+                <td>@menu.Price</td>
+            </tr>
+        }
+    </table>
 </body>
 </html>
