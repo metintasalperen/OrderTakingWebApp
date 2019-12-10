@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Core.Entities;
 
@@ -7,6 +8,7 @@ namespace Entities.Concrete
 {
     public class Menu:IEntity
     {
+        [Key]
         public int ItemId { get; set; }
         public string Name { get; set; }
         public string Category { get; set; }
