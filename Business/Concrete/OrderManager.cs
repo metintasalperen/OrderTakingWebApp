@@ -21,7 +21,7 @@ namespace Business.Concrete
         }
         public List<Order> GetByTableId(int tableId)
         {
-            return _orderDal.GetList(p => p.TableId == tableId);
+            return _orderDal.GetList(p => p.Table.TableId == tableId);
         }
         public void Add(Order order)
         {

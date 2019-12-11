@@ -12,6 +12,7 @@ using Business.Abstract;
 using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebUI
 {
@@ -29,7 +30,9 @@ namespace WebUI
         {
             services.AddControllersWithViews();
             services.AddMvc();
-
+            services.AddDbContext<OrderingContext>(opt =>
+                opt.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=Ordering; Trusted_Connection=true",
+                    b => b.MigrationsAssembly("WebUI")));
             services.AddScoped<IMenuService, MenuManager>();
             services.AddScoped<IMenuDal, EfMenuDal>();
         }
