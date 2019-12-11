@@ -17,7 +17,7 @@ namespace Business.Concrete
             _menuDal = menuDal;
         }
 
-        public List<Menu> GetAll()
+        public List<MenuItem> GetAll()
         {
             return _menuDal.GetList();
         }

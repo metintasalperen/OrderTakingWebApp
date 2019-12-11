@@ -4,7 +4,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfMenuDal : EfEntityRepositoryBase<Menu, OrderingContext>, IMenuDal
+    public class EfMenuDal : EfEntityRepositoryBase<MenuItem, OrderingContext>, IMenuDal
     {
 
     }

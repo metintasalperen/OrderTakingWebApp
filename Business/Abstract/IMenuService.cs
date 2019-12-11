@@ -5,6 +5,6 @@ namespace Business.Abstract
 {
     public interface IMenuService
     {
-        List<Menu> GetAll();
+        List<MenuItem> GetAll();
     }
 }

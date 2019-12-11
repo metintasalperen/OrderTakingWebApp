@@ -30,9 +30,9 @@ namespace WebUI
         {
             services.AddControllersWithViews();
             services.AddMvc();
-            services.AddDbContext<OrderingContext>(opt =>
-                opt.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=Ordering; Trusted_Connection=true",
-                    b => b.MigrationsAssembly("WebUI")));
+            //services.AddDbContext<OrderingContext>(opt =>
+            //    opt.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=Ordering; Trusted_Connection=true",
+            //        b => b.MigrationsAssembly("WebUI")));
             services.AddScoped<IMenuService, MenuManager>();
             services.AddScoped<IMenuDal, EfMenuDal>();
         }

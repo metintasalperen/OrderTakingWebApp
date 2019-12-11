@@ -10,11 +10,21 @@ namespace Entities.Concrete
     public class Order:IEntity
     {
         [Key]
+        [Required]
         public int OrderId { get; set; }
+        [Required]
+        [ForeignKey("Table")]
+        public int TableId { get; set; }
         public Table Table { get; set; }
-        public Menu Menu { get; set; }
+        [Required]
+        [ForeignKey("MenuItem")]
+        public int ItemId { get; set; }
+        public MenuItem MenuItem { get; set; }
+        [Required]
         public int Quantity { get; set; }
+        [Required]
         public int WaiterId { get; set; }
+        [Required]
         public bool IsDelivered { get; set; }
     }
 }

@@ -7,21 +7,22 @@ namespace WebUI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Menus",
+                name: "MenuItems",
                 columns: table => new
                 {
                     ItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Category = table.Column<string>(nullable: false),
                     IsAvailable = table.Column<bool>(nullable: false),
                     Sold = table.Column<int>(nullable: false),
                     Explanation = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    ImagePath = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Menus", x => x.ItemId);
+                    table.PrimaryKey("PK_MenuItems", x => x.ItemId);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,8 +44,8 @@ namespace WebUI.Migrations
                 {
                     OrderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TableId = table.Column<int>(nullable: true),
-                    MenuItemId = table.Column<int>(nullable: true),
+                    TableId = table.Column<int>(nullable: false),
+                    ItemId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     WaiterId = table.Column<int>(nullable: false),
                     IsDelivered = table.Column<bool>(nullable: false)
@@ -53,23 +54,23 @@ namespace WebUI.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Orders_Menus_MenuItemId",
-                        column: x => x.MenuItemId,
-                        principalTable: "Menus",
+                        name: "FK_Orders_MenuItems_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "MenuItems",
                         principalColumn: "ItemId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Tables_TableId",
                         column: x => x.TableId,
                         principalTable: "Tables",
                         principalColumn: "TableId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_MenuItemId",
+                name: "IX_Orders_ItemId",
                 table: "Orders",
-                column: "MenuItemId");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_TableId",
@@ -83,7 +84,7 @@ namespace WebUI.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Menus");
+                name: "MenuItems");
 
             migrationBuilder.DropTable(
                 name: "Tables");

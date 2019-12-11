@@ -8,6 +8,6 @@ namespace WebUI.Models
 {
     public class MenuViewModel
     {
-        public List<Menu> Menu { get; set; }
+        public List<MenuItem> Menu { get; set; }
     }
 }
