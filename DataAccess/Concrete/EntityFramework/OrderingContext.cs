@@ -19,5 +19,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Order> Orders { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<OperationClaims> OperationClaims { get; set; }
+        public DbSet<UserOperationClaims> UserOperationClaims { get; set; }
     }
 }

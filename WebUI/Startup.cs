@@ -35,7 +35,14 @@ namespace WebUI
             //    opt.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=Ordering; Trusted_Connection=true",
             //        b => b.MigrationsAssembly("WebUI")));
             services.AddScoped<IMenuService, MenuManager>();
+            services.AddScoped<IOrderService, OrderManager>();
+            services.AddScoped<ITableService, TableManager>();
+            services.AddScoped<IUserService, UserManager>();
             services.AddScoped<IMenuDal, EfMenuDal>();
+            services.AddScoped<IOrderDal, EfOrderDal>();
+            services.AddScoped<ITableDal, EfTableDal>();
+            services.AddScoped<IUserDal, EfUserDal>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
