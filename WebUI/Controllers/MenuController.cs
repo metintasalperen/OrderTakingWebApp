@@ -15,12 +15,13 @@ namespace WebUI.Controllers
         {
             _menuService = menuService;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, string category = "all")
         {
-            var menu = _menuService.GetAll();
+            int pageSize = 1;
+            var menu = _menuService.GetByCategory(category);
             MenuViewModel model = new MenuViewModel
             {
-                Menu = menu
+                Menu = menu.Skip((page - 1) * pageSize).Take(pageSize).ToList()
             };
             return View(model);
         }

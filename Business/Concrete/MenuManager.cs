@@ -26,5 +26,10 @@ namespace Business.Concrete
         {
             return _menuDal.GetCategories();
         }
+
+        public List<MenuItem> GetByCategory(string category)
+        {
+            return _menuDal.GetList(p => p.Category == category || category == "all");
+        }
     }
 }
