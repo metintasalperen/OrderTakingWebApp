@@ -13,6 +13,7 @@ using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using WebUI.Middlewares;
 
 namespace WebUI
 {
@@ -63,6 +64,9 @@ namespace WebUI
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseFileServer();
+            app.UseNodeModules(env.ContentRootPath);
         }
     }
 }
