@@ -4,6 +4,6 @@
     <a class="list-group-item">Categories</a>
     @foreach(var category in Model.Categories)
     {
-        <a href="#" class="list-group-item">@category</a>
+        <a href="/menu/index?category=@category" class="list-group-item">@category</a>
     }
 </div>

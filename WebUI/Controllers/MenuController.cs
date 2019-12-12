@@ -17,7 +17,7 @@ namespace WebUI.Controllers
         }
         public IActionResult Index(int page = 1, string category = "all")
         {
-            int pageSize = 1;
+            int pageSize = 10;
             var menu = _menuService.GetByCategory(category);
             MenuViewModel model = new MenuViewModel
             {
