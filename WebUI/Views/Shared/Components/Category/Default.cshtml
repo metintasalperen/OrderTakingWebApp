@@ -4,6 +4,11 @@
     <a class="list-group-item">Categories</a>
     @foreach(var category in Model.Categories)
     {
-        <a href="/menu/index?category=@category" class="list-group-item">@category</a>
+        var css = "list-group-item";
+        if (category == Model.CurrentCategory)
+        {
+            css += " active";
+        }
+        <a href="/menu/index?category=@category" class="@css">@category</a>
     }
 </div>

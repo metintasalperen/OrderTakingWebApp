@@ -8,5 +8,6 @@ namespace WebUI.Models
     public class CategoryViewModel
     {
         public List<string> Categories { get; set; }
+        public string CurrentCategory { get; set; }
     }
 }

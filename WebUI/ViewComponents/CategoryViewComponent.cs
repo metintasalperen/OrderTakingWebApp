@@ -21,7 +21,8 @@ namespace WebUI.ViewComponents
         {
             var model = new CategoryViewModel
             {
-                Categories = _menuService.GetCategories()
+                Categories = _menuService.GetCategories(),
+                CurrentCategory = HttpContext.Request.Query["category"]
             };
             return View(model);
         }
