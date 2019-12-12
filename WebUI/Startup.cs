@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Business.Abstract;
 using Business.Concrete;
+using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,8 @@ namespace WebUI
             services.AddScoped<IOrderDal, EfOrderDal>();
             services.AddScoped<ITableDal, EfTableDal>();
             services.AddScoped<IUserDal, EfUserDal>();
+            services.AddScoped<IAuthService, AuthManager>();
+            services.AddScoped<ITokenHelper, JwtHelper>();
 
         }
 
