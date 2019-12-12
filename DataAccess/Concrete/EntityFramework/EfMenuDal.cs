@@ -17,7 +17,6 @@ namespace DataAccess.Concrete.EntityFramework
                 var result = context.MenuItems.Select(m => m.Category).Distinct().ToList();
                 return result;
             }
-            throw new NotImplementedException();
         }
     }
 }

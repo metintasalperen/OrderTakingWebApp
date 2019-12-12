@@ -18,10 +18,15 @@
                 <tr>
                     <td>@item.Name</td>
                     <td>@item.Category</td>
-                    <td>@if (item.Explanation != null)@item.Explanation</td>
-                    <td>@item.Price</td>
-                </tr>
-            }
+                    <td>
+                        @if (item.Explanation != null)
+                        {
+                            @item.Explanation
+                        }
+                </td>
+                <td>@item.Price</td>
+            </tr>
         }
+    }
     </table>
 </div>
