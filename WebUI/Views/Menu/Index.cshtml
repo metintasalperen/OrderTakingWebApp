@@ -19,25 +19,27 @@
     <div class="table-responsive">
         <table class="table">
             <tr>
-                <td>Name</td>
-                <td>Category</td>
-                <td>Explanation</td>
-                <td>Price</td>
+                <th style="text-align:center">Image</th>
+                <th style="text-align:center">Name</th>
+                <th style="text-align:center">Category</th>
+                <th style="text-align:center">Explanation</th>
+                <th style="text-align:center">Price</th>
             </tr>
             @foreach (var item in Model.Menu)
             {
                 if (item.IsAvailable == true)
                 {
                     <tr>
-                        <td>@item.Name</td>
-                        <td>@item.Category</td>
-                        <td>
+                        <td style="text-align:center"><img src="@item.ImagePath" alt="@item.Name" width="100" height="50"/></td>
+                        <td style="text-align:center">@item.Name</td>
+                        <td style="text-align:center">@item.Category</td>
+                        <td style="text-align:center">
                             @if (item.Explanation != null)
                             {
                                 @item.Explanation
                             }
                         </td>
-                        <td>@item.Price</td>
+                        <td style="text-align:center">@item.Price</td>
                     </tr>
                 }
             }
