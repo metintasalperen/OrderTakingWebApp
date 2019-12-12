@@ -21,5 +21,10 @@ namespace Business.Concrete
         {
             return _menuDal.GetList();
         }
+
+        public List<string> GetCategories()
+        {
+            return _menuDal.GetCategories();
+        }
     }
 }

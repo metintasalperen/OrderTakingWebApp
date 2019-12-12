@@ -1,24 +1,16 @@
-﻿@model WebUI.Models.MenuViewModel
+﻿@model WebUI.Models.CategoryViewModel
 @{
     Layout = "~/Views/_Layout.cshtml";
 }
 <div>
     <table>
         <tr>
-            <td>Name</td>
-            <td>Category</td>
-            <td>Availability</td>
-            <td>Explanation</td>
-            <td>Price</td>
+            <td>Categories</td>
         </tr>
-        @foreach(var menu in Model.Menu)
+        @foreach(var category in Model.Categories)
         {
             <tr>
-                <td>@menu.Name</td>
-                <td>@menu.Category</td>
-                <td>@menu.IsAvailable</td>
-                <td>@if (menu.Explanation != null) { @menu.Explanation } </td>
-                <td>@menu.Price</td>
+                <td>@category</td>
             </tr>
         }
     </table>
