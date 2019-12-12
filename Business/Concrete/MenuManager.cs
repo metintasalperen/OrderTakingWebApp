@@ -29,7 +29,7 @@ namespace Business.Concrete
 
         public List<MenuItem> GetByCategory(string category)
         {
-            return _menuDal.GetList(p => p.Category == category || category == "all");
+            return _menuDal.GetList(p => p.Category == category);
         }
     }
 }

@@ -3,46 +3,47 @@
     Layout = "~/Views/_Layout.cshtml";
 }
 
-<div class="col-4">
-    <a class="list-group-item">Categories</a>
-    @foreach (var category in Model.Categories)
-    {
-        var css = "list-group-item";
-        if (category == Model.CurrentCategory)
+    <div class="w-75" style="margin:auto">
+        <a class="list-group-item">Categories</a>
+        @foreach (var category in Model.Categories)
         {
-            css += " active";
-        }
-        <a href="/menu/index?category=@category" class="@css">@category</a>
-    }
-</div>
-<div class="col-8">
-    <div class="table-responsive">
-        <table class="table">
-            <tr>
-                <th style="text-align:center">Image</th>
-                <th style="text-align:center">Name</th>
-                <th style="text-align:center">Category</th>
-                <th style="text-align:center">Explanation</th>
-                <th style="text-align:center">Price</th>
-            </tr>
-            @foreach (var item in Model.Menu)
+            var css = "list-group-item";
+            if (category == Model.CurrentCategory)
             {
-                if (item.IsAvailable == true)
-                {
-                    <tr>
-                        <td style="text-align:center"><img src="@item.ImagePath" alt="@item.Name" width="100" height="50"/></td>
-                        <td style="text-align:center">@item.Name</td>
-                        <td style="text-align:center">@item.Category</td>
-                        <td style="text-align:center">
-                            @if (item.Explanation != null)
-                            {
-                                @item.Explanation
-                            }
-                        </td>
-                        <td style="text-align:center">@item.Price</td>
-                    </tr>
-                }
+                css += " active";
             }
-        </table>
+            else
+            {
+                css += " list-group-item-info";
+            }
+            <a href="/menu/index?category=@category" class="@css">@category</a>
+
+            if (category == Model.CurrentCategory)
+            {
+                <div class="table-responsive">
+                    <table class="table" align="center">
+                        @foreach (var item in Model.Menu)
+                        {
+                            if (item.IsAvailable == true)
+                            {
+                                <tr>
+                                    <td style="text-align:center" width="20%"><img src="@item.ImagePath" alt="@item.Name" width="100" height="50" /></td>
+                                    <td style="text-align:center" width="20%">@item.Name</td>
+                                    <td style="text-align:center" width="40%">
+                                        @if (item.Explanation != null)
+                                        {
+                                            @item.Explanation
+                                        }
+                                    </td>
+                                    <td style="text-align:center" width="20%">@item.Price</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            }
+        }
     </div>
+<div class="col-8">
+    
 </div>
