@@ -30,6 +30,10 @@ namespace Business.Concrete
             return _userDal.Get(u => u.LastName == lastName);
         }
 
+        public User GetByUserName(string userName)
+        {
+            return _userDal.Get(u => u.UserName == userName);
+        }
         public List<OperationClaims> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
