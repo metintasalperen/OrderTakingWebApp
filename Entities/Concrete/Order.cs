@@ -22,8 +22,9 @@ namespace Entities.Concrete
         public MenuItem MenuItem { get; set; }
         [Required]
         public int Quantity { get; set; }
-        [Required]
+        [ForeignKey("User")]
         public int WaiterId { get; set; }
+        public User User { get; set; }
         [Required]
         public bool IsDelivered { get; set; }
     }
