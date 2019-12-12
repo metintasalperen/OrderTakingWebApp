@@ -21,7 +21,9 @@ namespace WebUI.Controllers
             var menu = _menuService.GetByCategory(category);
             MenuViewModel model = new MenuViewModel
             {
-                Menu = menu.Skip((page - 1) * pageSize).Take(pageSize).ToList()
+                Menu = menu.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                Categories = _menuService.GetCategories(),
+                CurrentCategory = HttpContext.Request.Query["category"]
             };
             return View(model);
         }

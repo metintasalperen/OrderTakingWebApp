@@ -9,5 +9,7 @@ namespace WebUI.Models
     public class MenuViewModel
     {
         public List<MenuItem> Menu { get; set; }
+        public List<string> Categories { get; set; }
+        public string CurrentCategory { get; set; }
     }
 }
