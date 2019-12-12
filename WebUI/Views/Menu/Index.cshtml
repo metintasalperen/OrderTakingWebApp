@@ -1,17 +1,27 @@
-﻿@model WebUI.Models.CategoryViewModel
+﻿@model WebUI.Models.MenuViewModel
 @{
     Layout = "~/Views/_Layout.cshtml";
 }
-<div>
-    <table class="table table-responsive">
+
+<div class="table-responsive">
+    <table class="table">
         <tr>
-            <td>Categories</td>
+            <td>Name</td>
+            <td>Category</td>
+            <td>Explanation</td>
+            <td>Price</td>
         </tr>
-        @foreach(var category in Model.Categories)
+        @foreach (var item in Model.Menu)
         {
-            <tr>
-                <td>@category</td>
-            </tr>
+            if (item.IsAvailable == true)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Category</td>
+                    <td>@if (item.Explanation != null)@item.Explanation</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
         }
     </table>
 </div>

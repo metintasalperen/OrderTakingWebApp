@@ -1,0 +1,9 @@
+﻿@model WebUI.Models.CategoryViewModel
+
+<div class="list-group">
+    <a class="list-group-item">Categories</a>
+    @foreach(var category in Model.Categories)
+    {
+        <a href="#" class="list-group-item">@category</a>
+    }
+</div>

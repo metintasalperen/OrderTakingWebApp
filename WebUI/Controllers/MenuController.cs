@@ -17,10 +17,10 @@ namespace WebUI.Controllers
         }
         public IActionResult Index()
         {
-            var categories = _menuService.GetCategories();
-            CategoryViewModel model = new CategoryViewModel
+            var menu = _menuService.GetAll();
+            MenuViewModel model = new MenuViewModel
             {
-                Categories = categories
+                Menu = menu
             };
             return View(model);
         }
