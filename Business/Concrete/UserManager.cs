@@ -31,9 +31,7 @@ namespace Business.Concrete
         }
 
         public User GetByUserName(string userName)
-        {
-            return _userDal.Get(u => u.UserName == userName);
-        }
+        public List<User> GetByRole(string role)
         public List<OperationClaims> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
