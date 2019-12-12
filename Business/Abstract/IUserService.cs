@@ -11,5 +11,6 @@ namespace Business.Abstract
         void Add(User user);
         User GetByFirstName(string firstName);
         User GetByLastName(string lastName);
+        List<User> GetByRole(string role);
     }
 }
