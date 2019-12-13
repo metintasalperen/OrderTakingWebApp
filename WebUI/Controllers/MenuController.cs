@@ -15,7 +15,7 @@ namespace WebUI.Controllers
         {
             _menuService = menuService;
         }
-        public IActionResult Index(int page = 1, string category = "all")
+        public IActionResult Index(int page = 1, string category = "none")
         {
             int pageSize = 10;
             var menu = _menuService.GetByCategory(category);
@@ -23,7 +23,7 @@ namespace WebUI.Controllers
             {
                 Menu = menu.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
                 Categories = _menuService.GetCategories(),
-                CurrentCategory = HttpContext.Request.Query["category"]
+                CurrentCategory = category
             };
             return View(model);
         }

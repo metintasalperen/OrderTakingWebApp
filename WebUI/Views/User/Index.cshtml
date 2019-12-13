@@ -1,0 +1,90 @@
+﻿@model WebUI.Models.UserViewModel
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="w-75" style="margin:auto">
+    <a href="/user/index?operation=create">Create User</a>
+    @if (Model.Action == "create")
+    {
+        <form method="post" action="/user/index">
+            <div class="table-responsive">
+                <table class="table" align="center">
+                    <tr>
+                        <th>Username:</th>
+                        <td><input name="UserName" /></td>
+                    </tr>
+                    <tr>
+                        <th>Password:</th>
+                        <td><input type="password" name="Password" /></td>
+                    </tr>
+                    <tr>
+                        <th>First name:</th>
+                        <td><input name="FirstName" /></td>
+                    </tr>
+                    <tr>
+                        <th>Last name:</th>
+                        <td><input name="LastName" /></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number:</th>
+                        <td><input name="PhoneNumber" /></td>
+                    </tr>
+                    <tr>
+                        <th>Role:</th>
+                        <td>
+                            <input name="Role" type="radio" value="Admin" />Admin
+                            <input name="Role" type="radio" value="Waiter" />Waiter
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td>
+                            <input name="Status" type="radio" value="True" />True
+                            <input name="Status" type="radio" value="False" />False
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td><input type="hidden" name="CountOfTable" value="0" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><input type="submit" /></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    }
+    else
+    {
+        <table class="table" align="center">
+            <tr>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone Number</th>
+                <th>Status</th>
+                <th>Count of Table</th>
+            </tr>
+            @foreach (var item in Model.Users)
+            {
+
+                <tr>
+                    <td style="text-align:center">@item.UserName</td>
+                    <td style="text-align:center">@item.FirstName</td>
+                    <td style="text-align:center">@item.LastName</td>
+                    <td style="text-align:center">
+
+                        @if (item.PhoneNumber != null)
+                        {
+                            @item.PhoneNumber
+                        }
+                    </td>
+
+                    <td style="text-align:center">@item.Status</td>
+                    <td style="text-align:center">@item.CountOfTable</td>
+                </tr>
+            }
+
+        </table>
+    }
+</div>

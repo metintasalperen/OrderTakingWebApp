@@ -10,6 +10,8 @@ namespace Business.Abstract
         List<OperationClaims> GetClaims(User user);
         void Add(User user);
         User GetByFirstName(string firstName);
-        User GetByLastName(string lastName);
+        User GetByLastName(string lastName);    
+        User GetByUserName(string userName);
+        List<User> GetByRole(string role);
     }
 }
