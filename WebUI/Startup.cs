@@ -35,6 +35,8 @@ namespace WebUI
         {
             services.AddControllersWithViews();
             services.AddMvc();
+            services.AddSession();
+            services.AddDistributedMemoryCache();
             //services.AddDbContext<OrderingContext>(opt =>
             //    opt.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=Ordering; Trusted_Connection=true",
             //        b => b.MigrationsAssembly("WebUI")));
@@ -81,6 +83,8 @@ namespace WebUI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();

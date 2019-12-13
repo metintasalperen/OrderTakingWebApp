@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Core.Entities;
+using Core.Entities.Concrete;
 
 namespace Entities.Concrete
 {

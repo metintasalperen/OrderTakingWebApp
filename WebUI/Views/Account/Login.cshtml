@@ -35,6 +35,12 @@
     <div class="limiter">
         <div class="container-login100" style="background-image: url('/img/img-01.jpg');">
             <div class="wrap-login100 p-t-50 p-b-0">
+                <div class="col-md-10" style="margin:auto">
+                    @if (TempData["loginMessage"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">@TempData["loginMessage"]</div>
+                    }
+                </div>
                 <form asp-controller="Account" asp-action="Login" method="post" class="login100-form validate-form">
                     <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
                         <input asp-for="Username" class="input100" type="text" name="username" id="username" placeholder="Username">
@@ -53,7 +59,7 @@
                         </span>
                     </div>
                     <div class="container-login100-form-btn p-t-10">
-                        <input type="button" value="Login" class="login100-form-btn" onclick="Validate()">
+                        <input type="submit" value="Login" class="login100-form-btn">
                     </div>
                 </form>
             </div>
