@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
-using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
@@ -12,9 +12,11 @@ namespace WebUI.Controllers
     public class UserController : Controller
     {
         private IUserService _userService;
-        public UserController(IUserService userService)
+        private IAuthService _authService;
+        public UserController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
         public IActionResult Index(string operation = "none")
         {
@@ -28,19 +30,9 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(User toAdd)
+        public IActionResult Index(UserForRegisterDto toAdd)
         {
-            // Implement hash and salt operations
-            /*
-            int intValue = 5;
-            byte[] intBytes = BitConverter.GetBytes(intValue);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(intBytes);
-            byte[] result = intBytes;
-            toAdd.PasswordHash = result;
-            toAdd.PasswordSalt = result;
-            */
-            _userService.Add(toAdd);
+            _authService.Register(toAdd, toAdd.Password);
             var waiters = _userService.GetByRole("Waiter");
             UserViewModel model = new UserViewModel
             {
