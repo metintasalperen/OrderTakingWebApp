@@ -38,16 +38,7 @@ namespace WebUI
             //services.AddDbContext<OrderingContext>(opt =>
             //    opt.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=Ordering; Trusted_Connection=true",
             //        b => b.MigrationsAssembly("WebUI")));
-            services.AddScoped<IMenuService, MenuManager>();
-            services.AddScoped<IOrderService, OrderManager>();
-            services.AddScoped<ITableService, TableManager>();
-            services.AddScoped<IUserService, UserManager>();
-            services.AddScoped<IMenuDal, EfMenuDal>();
-            services.AddScoped<IOrderDal, EfOrderDal>();
-            services.AddScoped<ITableDal, EfTableDal>();
-            services.AddScoped<IUserDal, EfUserDal>();
-            services.AddScoped<IAuthService, AuthManager>();
-            services.AddScoped<ITokenHelper, JwtHelper>();
+
 
             services.AddCors(options =>
             {
@@ -91,8 +82,9 @@ namespace WebUI
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
