@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
 namespace WebUI.Controllers
 {
+
+    [Authorize(Roles ="Waiter")]
     public class WaiterPanelController : Controller
     {
         private IOrderService _orderService;
         private IUserService _userService;
         private IMenuService _menuService;
         private ITableService _tableService;
-
         public WaiterPanelController(IOrderService orderService,IUserService userService, IMenuService menuService, ITableService tableService)
         {
             _orderService = orderService;
@@ -29,6 +32,12 @@ namespace WebUI.Controllers
             var menus = _menuService.GetAll();
             var tables = _tableService.GetAll();
 
+            var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return View("Error");
+            }
             // loginden gelecek username ile usere sorgu atılacak, dönen waiterin idsi waiterid olarak modele yollanacak.
             OrderListViewModel model = new OrderListViewModel
             {
@@ -37,7 +46,7 @@ namespace WebUI.Controllers
                 Table = tables.ToList(),
                 CurrentCategory = HttpContext.Request.Query["tableid"],
                 TableOrders = tableOrders.ToList(),
-                WaiterId = 1
+                WaiterId = Int32.Parse(userId)
             };
             return View(model);
         }
