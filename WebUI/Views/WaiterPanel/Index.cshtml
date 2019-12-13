@@ -4,24 +4,40 @@
 }
 
     <div class="col-4">
-        <a class="list-group-item">Tables</a>
-        @foreach (var table in Model.Table)
-        {
-            var css = "list-group-item";
-            if (table == Model.CurrentCategory)
-            {
-                css += " active";
-            }
-            foreach (var item in Model.Orders)
-            {
-                if (item.TableId == table.TableId)
-                {
-                    <a href="/waiterpanel/index?table=@table.TableId" class="@css">@table.TableId</a>
-                    break;
+        <table class="table">
 
+            <tr>
+                <th style="text-align:center">Table</th>
+                <th style="text-align:center">Table Status</th>
+            </tr>
+
+            @foreach (var table in Model.Table)
+            {
+                var css = "list-group-item";
+                if (table == Model.CurrentCategory)
+                {
+                    css += " active";
+                }
+                foreach (var item in Model.Orders)
+                {
+                    if (item.TableId == table.TableId)
+                    {
+                        <tr>
+                            <th>
+                                <a href="/waiterpanel/index?table=@table.TableId" class="@css">@table.TableId</a>
+                            </th>
+
+                            <th>
+                                <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeAvailable" asp-route-tableId="@item.TableId">Make It Available!</a>
+                            </th>
+                        </tr>
+
+                        break;
+
+                    }
                 }
             }
-        }
+        </table>
     </div>
 
 <div class="col-8">
