@@ -26,11 +26,11 @@ namespace WebUI.Controllers
                 var userRole = User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Role)?.Value;
                 if (userRole == "Waiter")
                 {
-                    RedirectToAction("Index", "WaiterPanel");
+                    return RedirectToAction("Index", "WaiterPanel");
                 }
                 else if (userRole == "Admin")
                 {
-                    RedirectToAction("Index", "User");
+                    return RedirectToAction("Index", "User");
                 }
             }
             return View();
