@@ -1,0 +1,73 @@
+﻿@using System.Threading.Tasks
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/img/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('/img/img-01.jpg');">
+            <div class="wrap-login100 p-t-50 p-b-0">
+                <form asp-controller="Account" asp-action="Login" method="post" class="login100-form validate-form">
+                    <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
+                        <input asp-for="Username" class="input100" type="text" name="username" id="username" placeholder="Username">
+                        <span asp-validation-for="Username"></span>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-10" data-validate="Password is required">
+                        <input asp-for="Password" class="input100" type="password" name="password" id="password" placeholder="Password">
+                        <span asp-validation-for="Password"></span>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+                    <div class="container-login100-form-btn p-t-10">
+                        <input type="button" value="Login" class="login100-form-btn" onclick="Validate()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="~/lib/jquery/dist/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/lib/bootstrap/dist/js/popper.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/js/main.js"></script>
+</body>
+</html>
