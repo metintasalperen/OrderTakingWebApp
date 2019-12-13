@@ -1,11 +1,11 @@
 ﻿using System;
-using Entities.Concrete;
 using System.Collections.Generic;
 using Core.Utilities.Security.Encryption;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using Core.Entities.Concrete;
 using Core.Extensions;
 using Microsoft.IdentityModel.Tokens;
 

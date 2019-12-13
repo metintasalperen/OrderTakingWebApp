@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Entities.Concrete;
 using Core.Utilities.Hashing;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Jwt;
