@@ -17,6 +17,7 @@ using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using WebUI.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace WebUI
@@ -85,7 +86,15 @@ namespace WebUI
             app.UseRouting();
 
             app.UseSession();
-
+            app.Use(async (context, next) =>
+            {
+                var jwToken = context.Session.GetString("JWToken");
+                if (!string.IsNullOrEmpty(jwToken))
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + jwToken);
+                }
+                await next();
+            });
             app.UseAuthentication();
             app.UseAuthorization();
             

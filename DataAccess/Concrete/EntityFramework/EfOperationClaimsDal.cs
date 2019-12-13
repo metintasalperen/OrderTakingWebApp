@@ -7,7 +7,7 @@ using Core.DataAccess.EntityFramework;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfOperationClaims : EfEntityRepositoryBase<OperationClaims, OrderingContext>, IOperationClaims
+    public class EfOperationClaimsDal : EfEntityRepositoryBase<OperationClaims, OrderingContext>, IOperationClaimsDal
     {
         
     }

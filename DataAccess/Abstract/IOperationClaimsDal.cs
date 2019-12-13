@@ -6,7 +6,7 @@ using Core.Entities.Concrete;
 
 namespace DataAccess.Abstract
 {
-    public interface IOperationClaims:IEntityRepository<OperationClaims>
+    public interface IOperationClaimsDal:IEntityRepository<OperationClaims>
     {
     }
 }

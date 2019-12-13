@@ -13,10 +13,14 @@ namespace Business.Concrete
     {
         private IUserService _userService;
         private ITokenHelper _tokenHelper;
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        private IUserOperationService _userOperationService;
+        private IOperationService _operationService;
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IUserOperationService userOperationService, IOperationService operationService)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _userOperationService = userOperationService;
+            _operationService = operationService;
         }
 
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
@@ -37,6 +41,12 @@ namespace Business.Concrete
                 Role = userForRegisterDto.Role
             };
             _userService.Add(user);
+            var operation = new UserOperationClaims
+            {
+                OperationClaims = _operationService.GetByName(user.Role),
+                User = _userService.GetByUserName(user.UserName)
+            };
+            _userOperationService.Add(operation);
             return new SuccessDataResult<User>(user, Messages.RegisterSuccess);
         }
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Dtos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
@@ -18,6 +20,19 @@ namespace WebUI.Controllers
         }
         public IActionResult Login()
         {
+            var userId = User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var userRole = User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Role)?.Value;
+                if (userRole == "Waiter")
+                {
+                    RedirectToAction("Index", "WaiterPanel");
+                }
+                else if (userRole == "Admin")
+                {
+                    RedirectToAction("Index", "User");
+                }
+            }
             return View();
         }
 
@@ -38,12 +53,17 @@ namespace WebUI.Controllers
             }
 
             var result = _authService.CreateAccessToken(userToLogin.Data);
+
             if (!result.Success)
             {
-                //Will change
+                TempData.Add("loginMessage", result.Message);
                 return View();
             }
-            return View();
+
+            HttpContext.Session.SetString("JWToken", result.Data.Token);
+
+            return userToLogin.Data.Role == "Admin" ? RedirectToAction("Index", "User") :
+                RedirectToAction("Index", "WaiterPanel");
         }
     }
 }
