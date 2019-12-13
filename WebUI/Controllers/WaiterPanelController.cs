@@ -14,6 +14,7 @@ namespace WebUI.Controllers
         private IUserService _userService;
         private IMenuService _menuService;
         private ITableService _tableService;
+
         public WaiterPanelController(IOrderService orderService,IUserService userService, IMenuService menuService, ITableService tableService)
         {
             _orderService = orderService;
@@ -27,6 +28,7 @@ namespace WebUI.Controllers
             var tableOrders = _orderService.GetByTableId(table);
             var menus = _menuService.GetAll();
             var tables = _tableService.GetAll();
+
             // loginden gelecek username ile usere sorgu atılacak, dönen waiterin idsi waiterid olarak modele yollanacak.
             OrderListViewModel model = new OrderListViewModel
             {
@@ -46,6 +48,37 @@ namespace WebUI.Controllers
             {
                 entity.IsDelivered = true;
                 _orderService.Update(entity);
+            }
+
+            var orders = _orderService.GetAll();
+            var tableOrders = _orderService.GetByTableId(table);
+            var menus = _menuService.GetAll();
+            var tables = _tableService.GetAll();
+            // loginden gelecek username ile usere sorgu atılacak, dönen waiterin idsi waiterid olarak modele yollanacak.
+            OrderListViewModel model = new OrderListViewModel
+            {
+                Orders = orders.ToList(),
+                Menu = menus.ToList(),
+                Table = tables.ToList(),
+                CurrentCategory = HttpContext.Request.Query["tableid"],
+                TableOrders = tableOrders.ToList(),
+                WaiterId = 1
+            };
+            return View("Index", model);
+        }
+        public IActionResult MakeAvailable(int tableId, int table)
+        {
+            var tableEntity = _tableService.GetByTableId(tableId);
+            if (tableEntity != null)
+            {
+                tableEntity.IsEmpty = true;
+                _tableService.Update(tableEntity);
+            }
+            var orderEntities = _orderService.GetByTableId(tableId);
+
+            foreach (var item in orderEntities)
+            {
+                _orderService.Delete(item.OrderId);
             }
 
             var orders = _orderService.GetAll();
