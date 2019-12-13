@@ -9,5 +9,6 @@ namespace WebUI.Models
     public class UserViewModel
     {
         public List<User> Users { get; set; }
+        public string Action { get; set; }
     }
 }

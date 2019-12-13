@@ -7,6 +7,7 @@ namespace Business.Abstract
 {
     public interface IOrderService
     {
+        Order GetByOrderId(int orderId);
         List<Order> GetAll();
         List<Order> GetByTableId(int tableId);
         void Add(Order order);

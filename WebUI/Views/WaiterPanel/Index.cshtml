@@ -1,0 +1,64 @@
+﻿@model WebUI.Models.OrderListViewModel
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+    <div class="col-4">
+        <a class="list-group-item">Tables</a>
+        @foreach (var table in Model.Table)
+        {
+            var css = "list-group-item";
+            if (table == Model.CurrentCategory)
+            {
+                css += " active";
+            }
+            foreach (var item in Model.Orders)
+            {
+                if (item.TableId == table.TableId)
+                {
+                    <a href="/waiterpanel/index?table=@table.TableId" class="@css">@table.TableId</a>
+                    break;
+
+                }
+            }
+        }
+    </div>
+
+<div class="col-8">
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th style="text-align:center">Table</th>
+                <th style="text-align:center">Menu Item</th>
+                <th style="text-align:center">Quantity</th>
+            </tr>
+            @foreach (var item in Model.TableOrders)
+            {
+                if (item.WaiterId == Model.WaiterId && !item.IsDelivered)
+                {
+                    <tr>
+                        @foreach (var tableitem in Model.Table)
+                        {
+                            if (item.TableId == tableitem.TableId)
+                            {
+                                <td style="text-align:center">@tableitem.TableId</td>
+                            }
+                        }
+                        @foreach (var menuitem in Model.Menu)
+                        {
+                            if (item.ItemId == menuitem.ItemId)
+                            {
+                                <td style="text-align:center">@menuitem.Name</td>
+                            }
+                        }
+
+                        <td style="text-align:center">@item.Quantity</td>
+                        <td style="text-align:center">
+                           <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeDelivered" asp-route-orderId="@item.OrderId">Make It Delivered!</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>
