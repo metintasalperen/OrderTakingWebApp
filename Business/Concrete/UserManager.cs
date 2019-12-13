@@ -44,5 +44,15 @@ namespace Business.Concrete
         {
             return _userDal.GetClaims(user);
         }
+
+        public User GetByUserId(int userId)
+        {
+            return _userDal.Get(u => u.UserId == userId);
+        }
+
+        public void Delete(int userId)
+        {
+            _userDal.Delete(new User { UserId = userId });
+        }
     }
 }

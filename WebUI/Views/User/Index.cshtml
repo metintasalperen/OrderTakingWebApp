@@ -4,9 +4,17 @@
 }
 <div class="w-75" style="margin:auto">
     <a href="/user/index?operation=create">Create User</a>
+    <a href="/user/index?operation=delete">Delete User</a>
+    <a href="/user/index?operation=update">Update User</a>
     @if (Model.Action == "create")
     {
-        <form method="post" action="/user/index">
+        <form method="post" asp-controller="User" asp-action="CreateUser">
+            <div class="col-md-10" style="margin:auto">
+                @if (TempData["createMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["createMessage"]</div>
+                }
+            </div>
             <div class="table-responsive">
                 <table class="table" align="center">
                     <tr>
@@ -37,43 +45,96 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="submit" value="Create User"/></td>
+                        <td><input type="submit" value="Create User" /></td>
                     </tr>
                 </table>
             </div>
         </form>
     }
-    else
+    else if (Model.Action == "update")
     {
-        <table class="table" align="center">
-            <tr>
-                <th>Username</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Phone Number</th>
-                <th>Status</th>
-                <th>Count of Table</th>
-            </tr>
-            @foreach (var item in Model.Users)
-            {
-
+        <form method="put" asp-controller="User" asp-action="UpdateUser">
+            <table class="table" align="center">
                 <tr>
-                    <td style="text-align:center">@item.UserName</td>
-                    <td style="text-align:center">@item.FirstName</td>
-                    <td style="text-align:center">@item.LastName</td>
-                    <td style="text-align:center">
-
-                        @if (item.PhoneNumber != null)
-                        {
-                            @item.PhoneNumber
-                        }
-                    </td>
-
-                    <td style="text-align:center">@item.Status</td>
-                    <td style="text-align:center">@item.CountOfTable</td>
+                    <th>Choose User</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Count of Table</th>
                 </tr>
-            }
 
-        </table>
+                @foreach (var item in Model.Users)
+                {
+
+                    <tr>
+                        <td><input type="radio" value="@item.UserId" name="chosenUser" /></td>
+                        <td style="text-align:center">@item.UserName</td>
+                        <td style="text-align:center">@item.FirstName</td>
+                        <td style="text-align:center">@item.LastName</td>
+                        <td style="text-align:center">
+
+                            @if (item.PhoneNumber != null)
+                            {
+                                @item.PhoneNumber
+                            }
+                        </td>
+
+                        <td style="text-align:center">@item.Status</td>
+                        <td style="text-align:center">@item.CountOfTable</td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <input type="submit" value="Update User" />
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    }
+    else if (Model.Action == "delete")
+    {
+        <form method="post" asp-controller="User" asp-action="DeleteUser">
+            <table class="table" align="center">
+                <tr>
+                    <th>Choose User</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Count of Table</th>
+                </tr>
+
+                @foreach (var item in Model.Users)
+                {
+
+                    <tr>
+                        <td><input type="radio" value="@item.UserId" name="chosenUser" /></td>
+                        <td style="text-align:center">@item.UserName</td>
+                        <td style="text-align:center">@item.FirstName</td>
+                        <td style="text-align:center">@item.LastName</td>
+                        <td style="text-align:center">
+
+                            @if (item.PhoneNumber != null)
+                            {
+                                @item.PhoneNumber
+                            }
+                        </td>
+
+                        <td style="text-align:center">@item.Status</td>
+                        <td style="text-align:center">@item.CountOfTable</td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <input type="submit" value="Delete User" />
+                    </td>
+                </tr>
+
+            </table>
+        </form>
     }
 </div>

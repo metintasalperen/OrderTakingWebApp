@@ -14,5 +14,7 @@ namespace Business.Abstract
         User GetByLastName(string lastName);    
         User GetByUserName(string userName);
         List<User> GetByRole(string role);
+        User GetByUserId(int userId);
+        void Delete(int userId);
     }
 }
