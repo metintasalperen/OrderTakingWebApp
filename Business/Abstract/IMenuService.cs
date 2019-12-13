@@ -5,6 +5,7 @@ namespace Business.Abstract
 {
     public interface IMenuService
     {
+        MenuItem GetById(int id);
         List<MenuItem> GetAll();
         List<string> GetCategories();
         List<MenuItem> GetByCategory(string category);

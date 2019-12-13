@@ -31,5 +31,10 @@ namespace Business.Concrete
         {
             return _menuDal.GetList(p => p.Category == category);
         }
+
+        public MenuItem GetById(int id)
+        {
+            return _menuDal.Get(p => p.ItemId == id);
+        }
     }
 }
