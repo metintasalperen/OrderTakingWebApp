@@ -15,14 +15,20 @@ namespace Business.Concrete
         {
             _orderDal = orderDal;
         }
+
+        public Order GetByOrderId(int orderId)
+        {
+            return _orderDal.Get(u => u.OrderId == orderId);
+        }
         public List<Order> GetAll()
         {
             return _orderDal.GetList();
         }
         public List<Order> GetByTableId(int tableId)
         {
-            return _orderDal.GetList(p => p.Table.TableId == tableId);
+            return _orderDal.GetList(p => p.TableId == tableId || tableId == 0);
         }
+
         public void Add(Order order)
         {
             _orderDal.Add(order);
