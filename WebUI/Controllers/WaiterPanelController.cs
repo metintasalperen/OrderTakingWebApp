@@ -63,7 +63,8 @@ namespace WebUI.Controllers
             var tableOrders = _orderService.GetByTableId(table);
             var menus = _menuService.GetAll();
             var tables = _tableService.GetAll();
-            // loginden gelecek username ile usere sorgu atılacak, dönen waiterin idsi waiterid olarak modele yollanacak.
+
+            var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
             OrderListViewModel model = new OrderListViewModel
             {
                 Orders = orders.ToList(),
@@ -71,7 +72,7 @@ namespace WebUI.Controllers
                 Table = tables.ToList(),
                 CurrentCategory = HttpContext.Request.Query["tableid"],
                 TableOrders = tableOrders.ToList(),
-                WaiterId = 1
+                WaiterId = Int32.Parse(userId)
             };
             return View("Index", model);
         }
@@ -94,7 +95,7 @@ namespace WebUI.Controllers
             var tableOrders = _orderService.GetByTableId(table);
             var menus = _menuService.GetAll();
             var tables = _tableService.GetAll();
-            // loginden gelecek username ile usere sorgu atılacak, dönen waiterin idsi waiterid olarak modele yollanacak.
+            var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
             OrderListViewModel model = new OrderListViewModel
             {
                 Orders = orders.ToList(),
@@ -102,7 +103,7 @@ namespace WebUI.Controllers
                 Table = tables.ToList(),
                 CurrentCategory = HttpContext.Request.Query["tableid"],
                 TableOrders = tableOrders.ToList(),
-                WaiterId = 1
+                WaiterId = Int32.Parse(userId)
             };
             return View("Index", model);
         }

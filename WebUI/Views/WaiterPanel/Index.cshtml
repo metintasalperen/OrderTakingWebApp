@@ -20,7 +20,7 @@
                 }
                 foreach (var item in Model.Orders)
                 {
-                    if (item.TableId == table.TableId)
+                    if (item.TableId == table.TableId && item.WaiterId == Model.WaiterId)
                     {
                         <tr>
                             <th>
