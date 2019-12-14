@@ -55,5 +55,22 @@ namespace WebUI.Controllers
             };
             return View("Index", model);
         }
+        [HttpPost]
+        public IActionResult EditTable(int chosenTable)
+        {
+            Table toEdit = _tableService.GetByTableId(chosenTable);
+            if(toEdit != null)
+            {
+                toEdit.IsEmpty = !toEdit.IsEmpty;
+                _tableService.Update(toEdit);
+            }
+            var tables = _tableService.GetAll();
+            TableViewModel model = new TableViewModel
+            {
+                Tables = tables,
+                Action = "list"
+            };
+            return View("Index", model);
+        }
     }
 }

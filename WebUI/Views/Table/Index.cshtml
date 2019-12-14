@@ -8,7 +8,7 @@
     <a href="/table/index?operation=list">List Tables</a>
     @if (Model.Action == "list")
     {
-        <form method="get" asp-controller="Table" asp-action="EditTable">
+        <form method="post" asp-controller="Table" asp-action="EditTable">
             <table class="table" align="center">
                 <tr>
                     <th>Choose Table</th>
@@ -25,7 +25,7 @@
                 }
                 <tr>
                     <td>
-                        <input type="submit" value="Edit Table" />
+                        <input type="submit" value="Change Selected Table Status" />
                     </td>
                 </tr>
 
@@ -61,44 +61,7 @@
             </div>
         </form>
     }
-    else if (Model.Action == "edit")
-    {
-        <form method="post" asp-controller="Table" asp-action="UpdateTable">
-            <div class="col-md-10" style="margin:auto">
-                @if (TempData["updateMessage"] != null)
-                {
-                    <div class="alert alert-danger" role="alert">@TempData["updateMessage"]</div>
-                }
-            </div>
-            <div class="table-responsive">
-                <input type="hidden" name="chosenTable" value="@Model.ChosenTable.TableId">
-                <table class="table" align="center">
-                    <tr>
-                        <th>Table Id:</th>
-                        <td>@Model.ChosenTable.TableId</td>
-                    </tr>
-                    <tr>
-                        <th>Is Empty:</th>
-                        <td>
-                            @if (Model.ChosenTable.IsEmpty)
-                            {
-                                <input name="IsEmpty" type="radio" value="True" checked /> <p>Empty</p>
-                                <input name="IsEmpty" type="radio" value="False" /><p>Full</p>
-                            }
-                            else
-                            {
-                                <input name="IsEmpty" type="radio" value="True" /> <p>Empty</p>
-                                <input name="IsEmpty" type="radio" value="False" checked /><p>Full</p>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" value="Update Table" /></td>
-                    </tr>
-                </table>
-            </div>
-        </form>
-    }
+
     else if (Model.Action == "delete")
     {
         <form method="post" asp-controller="Table" asp-action="DeleteTable">
