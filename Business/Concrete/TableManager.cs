@@ -29,5 +29,15 @@ namespace Business.Concrete
         {
             _tableDal.Update(table);
         }
+
+        public void Add(Table table)
+        {
+            _tableDal.Add(table);
+        }
+
+        public void Delete(int tableId)
+        {
+            _tableDal.Delete(new Table { TableId = tableId });
+        }
     }
 }

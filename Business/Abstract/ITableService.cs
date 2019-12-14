@@ -8,5 +8,7 @@ namespace Business.Abstract
         List<Table> GetAll();
         void Update(Table table);
         Table GetByTableId(int tableId);
+        void Add(Table table);
+        void Delete(int tableId);
     }
 }

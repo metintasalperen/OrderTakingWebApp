@@ -1,0 +1,129 @@
+﻿@model WebUI.Models.TableViewModel
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="w-75" style="margin:auto">
+    <a href="/table/index?operation=create">Create Table</a>
+    <a href="/table/index?operation=delete">Delete Table</a>
+    <a href="/table/index?operation=list">List Tables</a>
+    @if (Model.Action == "list")
+    {
+        <form method="get" asp-controller="Table" asp-action="EditTable">
+            <table class="table" align="center">
+                <tr>
+                    <th>Choose Table</th>
+                    <th>Table Id</th>
+                    <th>Is Table Empty</th>
+                </tr>
+                @foreach (var item in Model.Tables)
+                {
+                    <tr>
+                        <td><input type="radio" value="@item.TableId" name="chosenTable" /></td>
+                        <td style="text-align:center">@item.TableId</td>
+                        <td style="text-align:center">@item.IsEmpty</td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <input type="submit" value="Edit Table" />
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    }
+    else if (Model.Action == "create")
+    {
+        <form method="post" asp-controller="Table" asp-action="CreateTable">
+            <div class="col-md-10" style="margin:auto">
+                @if (TempData["createMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["createMessage"]</div>
+                }
+            </div>
+            <div class="table-responsive">
+                <table class="table" align="center">
+                    <tr>
+                        <th>Table Id:</th>
+                        <td>It will be generated automatically!</td>
+                    </tr>
+                    <tr>
+                        <th>Is Empty:</th>
+                        <td>
+                            <input name="IsEmpty" type="radio" value="True" />Empty
+                            <input name="IsEmpty" type="radio" value="False" />Full
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Create Table" /></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    }
+    else if (Model.Action == "edit")
+    {
+        <form method="post" asp-controller="Table" asp-action="UpdateTable">
+            <div class="col-md-10" style="margin:auto">
+                @if (TempData["updateMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["updateMessage"]</div>
+                }
+            </div>
+            <div class="table-responsive">
+                <input type="hidden" name="chosenTable" value="@Model.ChosenTable.TableId">
+                <table class="table" align="center">
+                    <tr>
+                        <th>Table Id:</th>
+                        <td>@Model.ChosenTable.TableId</td>
+                    </tr>
+                    <tr>
+                        <th>Is Empty:</th>
+                        <td>
+                            @if (Model.ChosenTable.IsEmpty)
+                            {
+                                <input name="IsEmpty" type="radio" value="True" checked /> <p>Empty</p>
+                                <input name="IsEmpty" type="radio" value="False" /><p>Full</p>
+                            }
+                            else
+                            {
+                                <input name="IsEmpty" type="radio" value="True" /> <p>Empty</p>
+                                <input name="IsEmpty" type="radio" value="False" checked /><p>Full</p>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Update Table" /></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    }
+    else if (Model.Action == "delete")
+    {
+        <form method="post" asp-controller="Table" asp-action="DeleteTable">
+            <table class="table" align="center">
+                <tr>
+                    <th>Choose Table</th>
+                    <th>Table Id</th>
+                    <th>Is Table Empty</th>
+                </tr>
+
+                @foreach (var item in Model.Tables)
+                {
+                    <tr>
+                        <td><input type="radio" value="@item.TableId" name="chosenTable" /></td>
+                        <td style="text-align:center">@item.TableId</td>
+                        <td style="text-align:center">@item.IsEmpty</td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <input type="submit" value="Delete Table" />
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    }
+</div>
