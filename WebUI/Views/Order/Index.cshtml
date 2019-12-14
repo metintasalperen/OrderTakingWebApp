@@ -34,27 +34,27 @@
     <div class="table-responsive">
         <table class="table" align="center">
             <tr>
-                <th style="text-align: center">Name</th>
-                <th style="text-align: center">Quantity</th>
-                <th style="text-align: center">Unit Price</th>
-                <th style="text-align: center">Total Price</th>
+                <th style="text-align: center" width="25%">Name</th>
+                <th style="text-align: center" width="25%">Quantity</th>
+                <th style="text-align: center" width="25%">Unit Price</th>
+                <th style="text-align: center" width="25%">Total Price</th>
             </tr>
             @foreach (var item in Model.NotDeliveredOrders)
             {
                 item_cost = item.MenuItem.Price * item.Quantity;
                 basket_cost += item_cost;
                 <tr>
-                    <td style="text-align: center">@item.MenuItem.Name</td>
-                    <td style="text-align: center">@item.Quantity</td>
-                    <td style="text-align: center">@item.MenuItem.Price ₺</td>
-                    <td style="text-align: center">@item_cost ₺</td>
+                    <td style="text-align: center" width="25%">@item.MenuItem.Name</td>
+                    <td style="text-align: center" width="25%">@item.Quantity</td>
+                    <td style="text-align: center" width="25%">@item.MenuItem.Price ₺</td>
+                    <td style="text-align: center" width="25%">@item_cost ₺</td>
                 </tr>
             }
             <tr>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"><b>Total cost:</b></td>
-                <td style="text-align: center"><b>@basket_cost ₺</b></td>
+                <td style="text-align: center" width="25%"></td>
+                <td style="text-align: center" width="25%"></td>
+                <td style="text-align: center" width="25%"><b>Total cost:</b></td>
+                <td style="text-align: center" width="25%"><b>@basket_cost ₺</b></td>
             </tr>
         </table>
     </div>
