@@ -5,8 +5,51 @@
 <div class="w-75" style="margin:auto">
     <a href="/user/index?operation=create">Create User</a>
     <a href="/user/index?operation=delete">Delete User</a>
-    <a href="/user/index?operation=update">Update User</a>
-    @if (Model.Action == "create")
+    <a href="/user/index?operation=list">List Users</a>
+    @if (Model.Action == "list")
+    {
+        <form method="get" asp-controller="User" asp-action="EditUser">
+            <table class="table" align="center">
+                <tr>
+                    <th>Choose User</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Count of Table</th>
+                </tr>
+
+                @foreach (var item in Model.Users)
+                {
+
+                    <tr>
+                        <td><input type="radio" value="@item.UserId" name="chosenUser" /></td>
+                        <td style="text-align:center">@item.UserName</td>
+                        <td style="text-align:center">@item.FirstName</td>
+                        <td style="text-align:center">@item.LastName</td>
+                        <td style="text-align:center">
+
+                            @if (item.PhoneNumber != null)
+                            {
+                                @item.PhoneNumber
+                            }
+                        </td>
+
+                        <td style="text-align:center">@item.Status</td>
+                        <td style="text-align:center">@item.CountOfTable</td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <input type="submit" value="Edit User" />
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    }
+    else if (Model.Action == "create")
     {
         <form method="post" asp-controller="User" asp-action="CreateUser">
             <div class="col-md-10" style="margin:auto">
@@ -51,47 +94,55 @@
             </div>
         </form>
     }
-    else if (Model.Action == "update")
+    else if (Model.Action == "edit")
     {
-        <form method="put" asp-controller="User" asp-action="UpdateUser">
-            <table class="table" align="center">
-                <tr>
-                    <th>Choose User</th>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone Number</th>
-                    <th>Status</th>
-                    <th>Count of Table</th>
-                </tr>
-
-                @foreach (var item in Model.Users)
+        <form method="post" asp-controller="User" asp-action="UpdateUser">
+            <div class="col-md-10" style="margin:auto">
+                @if (TempData["updateMessage"] != null)
                 {
+                    <div class="alert alert-danger" role="alert">@TempData["updateMessage"]</div>
+                }
+            </div>
+            <div class="table-responsive">
+                <input type="hidden" name="chosenUser" value="@Model.ChosenUser.UserId">
+                <table class="table" align="center">
+                    <tr>
+                        <th>First name:</th>
+                        <td><input name="FirstName" value=@Model.ChosenUser.FirstName /></td>
+                    </tr>
 
                     <tr>
-                        <td><input type="radio" value="@item.UserId" name="chosenUser" /></td>
-                        <td style="text-align:center">@item.UserName</td>
-                        <td style="text-align:center">@item.FirstName</td>
-                        <td style="text-align:center">@item.LastName</td>
-                        <td style="text-align:center">
-
-                            @if (item.PhoneNumber != null)
+                        <th>Last name:</th>
+                        <td><input name="LastName" value=@Model.ChosenUser.LastName /></td>
+                    </tr>
+                    <tr>
+                        <th>Password:</th>
+                        <td><input type="password" name="Password" /></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number:</th>
+                        <td><input name="PhoneNumber" value=@Model.ChosenUser.PhoneNumber /></td>
+                    </tr>
+                    <tr>
+                        <th>Role:</th>
+                        <td>
+                            @if (Model.ChosenUser.Role == "Admin")
                             {
-                                @item.PhoneNumber
+                                <input name="Role" type="radio" value="Admin" checked /> <p>Admin</p>
+                                <input name="Role" type="radio" value="Waiter" /><p>Waiter</p>
+                            }
+                            else
+                            {
+                                <input name="Role" type="radio" value="Admin" /> <p>Admin</p>
+                                <input name="Role" type="radio" value="Waiter" checked /><p>Waiter</p>
                             }
                         </td>
-
-                        <td style="text-align:center">@item.Status</td>
-                        <td style="text-align:center">@item.CountOfTable</td>
                     </tr>
-                }
-                <tr>
-                    <td>
-                        <input type="submit" value="Update User" />
-                    </td>
-                </tr>
-
-            </table>
+                    <tr>
+                        <td><input type="submit" value="Update User" /></td>
+                    </tr>
+                </table>
+            </div>
         </form>
     }
     else if (Model.Action == "delete")

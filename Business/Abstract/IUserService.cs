@@ -16,5 +16,6 @@ namespace Business.Abstract
         List<User> GetByRole(string role);
         User GetByUserId(int userId);
         void Delete(int userId);
+        void Update(User user);
     }
 }

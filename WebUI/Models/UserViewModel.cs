@@ -11,5 +11,6 @@ namespace WebUI.Models
     {
         public List<User> Users { get; set; }
         public string Action { get; set; }
+        public User ChosenUser { get; set; }
     }
 }

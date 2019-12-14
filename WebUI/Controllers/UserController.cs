@@ -9,6 +9,7 @@ using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Core.Utilities.Hashing;
 
 namespace WebUI.Controllers
 {
@@ -16,7 +17,7 @@ namespace WebUI.Controllers
     {
         private IUserService _userService;
         private IAuthService _authService;
-        
+
         public UserController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
@@ -48,21 +49,43 @@ namespace WebUI.Controllers
             if (!result.Success)
             {
                 TempData.Add("createMessage", result.Message);
-                return View("Index", model);
             }
             return View("Index", model);
         }
-        [HttpPut]
+        [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult UpdateUser(int chosenUser)
+        public IActionResult UpdateUser(UserForRegisterDto toUpdate, int chosenUser)
         {
-
-            
+            var exist = _userService.GetByUserId(chosenUser);
+            if (exist != null)
+            {
+                byte[] passwordHash, passwordSalt;
+                HashingHelper.CreatePasswordHash(toUpdate.Password, out passwordHash, out passwordSalt);
+                exist.FirstName = toUpdate.FirstName;
+                exist.LastName = toUpdate.LastName;
+                exist.PasswordHash = passwordHash;
+                exist.PasswordSalt = passwordSalt;
+                exist.PhoneNumber = toUpdate.PhoneNumber;
+                exist.Role = toUpdate.Role;
+                _userService.Update(exist);
+            }
             var waiters = _userService.GetByRole("Waiter");
             UserViewModel model = new UserViewModel
             {
                 Users = waiters,
-                Action = "none"
+                Action = "list"
+            };
+            return View("Index", model);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditUser(int chosenUser)
+        {
+            User toEdit = _userService.GetByUserId(chosenUser);
+
+            UserViewModel model = new UserViewModel
+            {
+                ChosenUser = toEdit,
+                Action = "edit"
             };
             return View("Index", model);
         }
@@ -71,7 +94,7 @@ namespace WebUI.Controllers
         public IActionResult DeleteUser(int chosenUser)
         {
             var entity = _userService.GetByUserId(chosenUser);
-            if(entity != null)
+            if (entity != null)
             {
                 _userService.Delete(chosenUser);
             }

@@ -54,5 +54,10 @@ namespace Business.Concrete
         {
             _userDal.Delete(new User { UserId = userId });
         }
+
+        public void Update(User user)
+        {
+            _userDal.Update(user);
+        }
     }
 }
