@@ -13,5 +13,6 @@ namespace WebUI.Models
         public List<string> Categories { get; set; }
         public string CurrentCategory { get; set; }
         public List<MenuItemBasketDto> Basket { get; set; }
+        public int TableNumber { get; set; }
     }
 }

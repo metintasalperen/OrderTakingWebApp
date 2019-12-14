@@ -6,7 +6,7 @@
 }
 
     <div class="w-75" style="margin:auto">
-        <a class="list-group-item"><h2>Categories</h2></a>
+        <a class="list-group-item"><h3>Categories</h3></a>
         @foreach (var category in Model.Categories)
         {
             var css = "list-group-item";
@@ -18,7 +18,7 @@
             {
                 css += " list-group-item-info";
             }
-            <a href="/menu/index?category=@category" class="@css">@category</a>
+            <a href="/menu/index?table=@Model.TableNumber&category=@category" class="@css">@category</a>
 
             if (category == Model.CurrentCategory)
             {
@@ -39,7 +39,7 @@
                                     </td>
                                     <td style="text-align:center" width="10%">@item.Price ₺</td>
                                     <td style="text-align:center" width="15%">
-                                        <form action="/menu/index?category=@Model.CurrentCategory" method="post">
+                                        <form action="/menu/index?table=@Model.TableNumber&category=@Model.CurrentCategory" method="post">
                                             <input type="number" name="quantity" value="1" min="1" max="50" />
                                             <input type="hidden" name="itemId" value="@item.ItemId">
                                             <input type="hidden" name="itemName" value="@item.Name">
@@ -57,11 +57,11 @@
         }
         <div class="table-responsive">
             <br/>
-            <h2 style="text-align:center">Basket</h2>
+            <h3 style="text-align:center">Basket</h3>
             <table class="table" align="center">
                 <tr>
                     <th style="text-align: center">Name</th>
-                    <th style="text-align: center">Quantitiy</th>
+                    <th style="text-align: center">Quantity</th>
                     <th style="text-align: center">Unit Price</th>
                     <th style="text-align: center">Total Price</th>
                     <th style="text-align: center">Update</th>
@@ -75,8 +75,8 @@
                         <td style="text-align: center">@item.quantity</td>
                         <td style="text-align: center">@item.price ₺</td>
                         <td style="text-align: center">@item_cost ₺</td>
-                        <td style="text-align:center" width="20%">
-                                        <form action="/menu/index?category=@Model.CurrentCategory" method="post">
+                        <td style="text-align: center">
+                                        <form action="/menu/index?table=@Model.TableNumber&category=@Model.CurrentCategory" method="post">
                                             <input type="number" name="quantity" value="@item.quantity" min="0" max="50" />
                                             <input type="hidden" name="itemId" value="@item.itemId">
                                             <input type="hidden" name="itemName" value="@item.itemName">

@@ -31,6 +31,7 @@ namespace WebUI.Controllers
             MenuViewModel model = new MenuViewModel
             {
                 //Menu = menu.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                TableNumber = table,
                 Menu = menu,
                 Categories = _menuService.GetCategories(),
                 CurrentCategory = category,
@@ -76,6 +77,7 @@ namespace WebUI.Controllers
             var menu = _menuService.GetByCategory(category);
             MenuViewModel model = new MenuViewModel
             {
+                TableNumber = table,
                 Menu = menu,
                 Categories = _menuService.GetCategories(),
                 CurrentCategory = category,

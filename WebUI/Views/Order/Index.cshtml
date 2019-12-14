@@ -1,0 +1,61 @@
+﻿@model WebUI.Models.OrderViewModel
+@{
+    Layout = "~/Views/_OrderLayout.cshtml";
+    decimal basket_cost = 0;
+    decimal item_cost = 0;
+}
+
+<div class="w-75" style="margin: auto">
+    <a class="list-group-item list-group-item"><h3>My Orders</h3></a>
+    <a class="list-group-item list-group-item-info">Delivered</a>
+    <div class="table-responsive">
+        <table class="table" align="center">
+            <tr>
+                <th style="text-align: center">Name</th>
+                <th style="text-align: center">Quantity</th>
+                <th style="text-align: center">Unit Price</th>
+                <th style="text-align: center">Total Price</th>
+            </tr>
+            @foreach (var item in Model.DeliveredOrders)
+            {
+                item_cost = item.MenuItem.Price * item.Quantity;
+                basket_cost += item_cost;
+                <tr>
+                    <td style="text-align: center">@item.MenuItem.Name</td>
+                    <td style="text-align: center">@item.Quantity</td>
+                    <td style="text-align: center">@item.MenuItem.Price ₺</td>
+                    <td style="text-align: center">@item_cost ₺</td>
+                </tr>
+            }
+        </table>
+    </div>
+    
+    <a class="list-group-item active">Preparing</a>
+    <div class="table-responsive">
+        <table class="table" align="center">
+            <tr>
+                <th style="text-align: center">Name</th>
+                <th style="text-align: center">Quantity</th>
+                <th style="text-align: center">Unit Price</th>
+                <th style="text-align: center">Total Price</th>
+            </tr>
+            @foreach (var item in Model.NotDeliveredOrders)
+            {
+                item_cost = item.MenuItem.Price * item.Quantity;
+                basket_cost += item_cost;
+                <tr>
+                    <td style="text-align: center">@item.MenuItem.Name</td>
+                    <td style="text-align: center">@item.Quantity</td>
+                    <td style="text-align: center">@item.MenuItem.Price ₺</td>
+                    <td style="text-align: center">@item_cost ₺</td>
+                </tr>
+            }
+            <tr>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"><b>Total cost:</b></td>
+                <td style="text-align: center"><b>@basket_cost ₺</b></td>
+            </tr>
+        </table>
+    </div>
+</div>
