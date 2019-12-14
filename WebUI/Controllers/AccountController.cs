@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Constants;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,11 +25,11 @@ namespace WebUI.Controllers
             if (!string.IsNullOrEmpty(userId))
             {
                 var userRole = User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.Role)?.Value;
-                if (userRole == "Waiter")
+                if (userRole == Roles.Waiter)
                 {
                     return RedirectToAction("Index", "WaiterPanel");
                 }
-                else if (userRole == "Admin")
+                else if (userRole == Roles.Admin)
                 {
                     return RedirectToAction("Index", "User");
                 }
@@ -62,7 +63,7 @@ namespace WebUI.Controllers
 
             HttpContext.Session.SetString("JWToken", result.Data.Token);
 
-            return userToLogin.Data.Role == "Admin" ? RedirectToAction("Index", "User") :
+            return userToLogin.Data.Role == Roles.Admin ? RedirectToAction("Index", "User") :
                 RedirectToAction("Index", "WaiterPanel");
         }
     }

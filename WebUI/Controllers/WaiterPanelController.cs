@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
@@ -11,14 +12,14 @@ using WebUI.Models;
 namespace WebUI.Controllers
 {
 
-    [Authorize(Roles ="Waiter")]
+    [Authorize(Roles = Roles.Waiter)]
     public class WaiterPanelController : Controller
     {
         private IOrderService _orderService;
         private IUserService _userService;
         private IMenuService _menuService;
         private ITableService _tableService;
-        public WaiterPanelController(IOrderService orderService,IUserService userService, IMenuService menuService, ITableService tableService)
+        public WaiterPanelController(IOrderService orderService, IUserService userService, IMenuService menuService, ITableService tableService)
         {
             _orderService = orderService;
             _tableService = tableService;
@@ -52,7 +53,7 @@ namespace WebUI.Controllers
         }
         public IActionResult MakeDelivered(int orderId, int table)
         {
-            var entity =_orderService.GetByOrderId(orderId);
+            var entity = _orderService.GetByOrderId(orderId);
             if (entity != null)
             {
                 entity.IsDelivered = true;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Constants;
 using Entities.Dtos;
 using Entities.Concrete;
 using Core.Entities.Concrete;
@@ -23,10 +24,10 @@ namespace WebUI.Controllers
             _userService = userService;
             _authService = authService;
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult Index(string operation = "none")
         {
-            var waiters = _userService.GetByRole("Waiter");
+            var waiters = _userService.GetByRole(Roles.Waiter);
             UserViewModel model = new UserViewModel
             {
                 Users = waiters,
@@ -36,11 +37,11 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult CreateUser(UserForRegisterDto toAdd)
         {
             var result = _authService.Register(toAdd, toAdd.Password);
-            var waiters = _userService.GetByRole("Waiter");
+            var waiters = _userService.GetByRole(Roles.Waiter);
             UserViewModel model = new UserViewModel
             {
                 Users = waiters,
@@ -53,7 +54,7 @@ namespace WebUI.Controllers
             return View("Index", model);
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult UpdateUser(UserForRegisterDto toUpdate, int chosenUser)
         {
             var exist = _userService.GetByUserId(chosenUser);
@@ -69,7 +70,7 @@ namespace WebUI.Controllers
                 exist.Role = toUpdate.Role;
                 _userService.Update(exist);
             }
-            var waiters = _userService.GetByRole("Waiter");
+            var waiters = _userService.GetByRole(Roles.Waiter);
             UserViewModel model = new UserViewModel
             {
                 Users = waiters,
@@ -77,7 +78,7 @@ namespace WebUI.Controllers
             };
             return View("Index", model);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult EditUser(int chosenUser)
         {
             User toEdit = _userService.GetByUserId(chosenUser);
@@ -90,7 +91,7 @@ namespace WebUI.Controllers
             return View("Index", model);
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult DeleteUser(int chosenUser)
         {
             var entity = _userService.GetByUserId(chosenUser);
@@ -98,7 +99,7 @@ namespace WebUI.Controllers
             {
                 _userService.Delete(chosenUser);
             }
-            var waiters = _userService.GetByRole("Waiter");
+            var waiters = _userService.GetByRole(Roles.Waiter);
             UserViewModel model = new UserViewModel
             {
                 Users = waiters,
