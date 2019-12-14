@@ -77,5 +77,10 @@ namespace Business.Concrete
             var accessToken = _tokenHelper.CreateToken(user, claims);
             return new SuccessDataResult<AccessToken>(accessToken,Messages.AccessTokenCreated);
         }
+        public IDataResult<AccessToken> CreateAccessTokenForCustomer(int tableId, string role)
+        {
+            var accessToken = _tokenHelper.CreateTokenForCustomer(tableId, role);
+            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+        }
     }
 }
