@@ -6,7 +6,7 @@
 }
 
     <div class="w-75" style="margin:auto">
-        <a class="list-group-item">Categories</a>
+        <a class="list-group-item"><h2>Categories</h2></a>
         @foreach (var category in Model.Categories)
         {
             var css = "list-group-item";
@@ -30,7 +30,7 @@
                             {
                                 <tr>
                                     <td style="text-align:center" width="20%"><img src="@item.ImagePath" alt="@item.Name" width="100" height="50" /></td>
-                                    <td style="text-align:center" width="10%">@item.Name</td>
+                                    <td style="text-align:center" width="15%">@item.Name</td>
                                     <td style="text-align:center" width="40%">
                                         @if (item.Explanation != null)
                                         {
@@ -38,14 +38,14 @@
                                         }
                                     </td>
                                     <td style="text-align:center" width="10%">@item.Price ₺</td>
-                                    <td style="text-align:center" width="20%">
+                                    <td style="text-align:center" width="15%">
                                         <form action="/menu/index?category=@Model.CurrentCategory" method="post">
                                             <input type="number" name="quantity" value="1" min="1" max="50" />
                                             <input type="hidden" name="itemId" value="@item.ItemId">
                                             <input type="hidden" name="itemName" value="@item.Name">
                                             <input type="hidden" name="isUpdate" value="0">
                                             <input type="hidden" name="price" value="@item.Price"><br />
-                                            <input type="submit" value="Add to Basket" />
+                                            <input type="submit" class="btn btn-info" value="Add to Basket" />
                                         </form>
                                     </td>
                                 </tr>
@@ -82,7 +82,7 @@
                                             <input type="hidden" name="itemName" value="@item.itemName">
                                             <input type="hidden" name="isUpdate" value="1">
                                             <input type="hidden" name="price" value="@item.price"><br/>
-                                            <input type="submit" value="Update" />
+                                            <input type="submit" class="btn btn-primary" value="Update" />
                                         </form>
                                     </td>
                     </tr>
