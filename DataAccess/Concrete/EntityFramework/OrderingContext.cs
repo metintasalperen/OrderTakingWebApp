@@ -20,8 +20,8 @@ namespace DataAccess.Concrete.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MenuItem>()
-                .HasAlternateKey(c => c.Name)
-                .HasName("AlternateKey_ItemName");
+                .HasIndex(c => c.Name)
+                .IsUnique();
         }
 
         public DbSet<Order> Orders { get; set; }

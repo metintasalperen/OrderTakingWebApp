@@ -46,5 +46,10 @@ namespace Business.Concrete
         {
             _menuDal.Add(item);
         }
+
+        public void Delete(int itemId)
+        {
+            _menuDal.Delete(new MenuItem { ItemId = itemId });
+        }
     }
 }
