@@ -1,4 +1,4 @@
-﻿@model WebUI.Models.AdminPanelMenuAddModel
+﻿@model WebUI.Models.AdminPanelMenuUpdateModel
 
 @{
     ViewBag.Title = "title";
@@ -6,9 +6,9 @@
 }
 
     <div class="w-75" style="margin:auto">
-        <h2>Add a Item to Menu!</h2>
+        <h2>Update an Item from Menu!</h2>
 
-        <form asp-controller="AdminPanel" asp-action="Add" method="post">
+        <form asp-controller="AdminPanel" asp-action="Update" method="post">
             <div class="form-group">
                 <label asp-for="MenuItem.Name"></label>
                 <input asp-for="MenuItem.Name" class="form-control" placeholder="Name" />
@@ -34,6 +34,8 @@
                 <input asp-for="MenuItem.Price" class="form-control" placeholder="Price" />
                 <span asp-validation-for="MenuItem.Price"></span>
             </div>
-            <input type="submit" value="Add" class="btn btn-xs btn-success" />
+            <input type="hidden" asp-for="MenuItem.ItemId" />
+            <input type="hidden" asp-for="MenuItem.Sold" />
+            <input type="submit" value="Update" class="btn btn-xs btn-success" />
         </form>
     </div>

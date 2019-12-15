@@ -44,7 +44,37 @@ namespace WebUI.Controllers
                 _menuService.Add(menuItem);
                 TempData.Add("message", "Item successfully added!");
             }
-            return View();
+            else
+            {
+                TempData.Add("message", "Insertion failed!");
+            }
+            return RedirectToAction("Menu");
+        }
+
+        [Route("/adminpanel/menu/update")]
+        public IActionResult Update(int itemId)
+        {
+            var model = new AdminPanelMenuUpdateModel
+            {
+                MenuItem = _menuService.GetById(itemId)
+            };
+            return View(model);
+        }
+
+        [Route("/adminpanel/menu/update")]
+        [HttpPost]
+        public IActionResult Update(MenuItem menuItem)
+        {
+            if (ModelState.IsValid)
+            {
+                _menuService.Update(menuItem);
+                TempData.Add("message", "Item successfully updated!");
+            }
+            else
+            {
+                TempData.Add("message", "Update failed!");
+            }
+            return RedirectToAction("Menu");
         }
     }
 }
