@@ -55,6 +55,7 @@
                 </div>
             }
         }
+        <br/>
         <div class="table-responsive">
             <br/>
             <h3 style="text-align:center">Basket</h3>
@@ -92,7 +93,11 @@
                         <td style="text-align: center"></td>
                         <td style="text-align: center"><b>Basket cost:</b></td>
                         <td style="text-align: center">@basket_cost ₺</td>
-                        <td style="text-align: center"></td>
+                        <td style="text-align: center">
+                            <form action="/order?table=@Model.TableNumber" method="post">
+                                <input type="submit" class="btn btn-success" value="Give Order!" />
+                            </form>
+                        </td>
                     </tr>
             </table>
         </div>

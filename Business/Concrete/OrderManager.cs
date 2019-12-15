@@ -41,5 +41,10 @@ namespace Business.Concrete
         {
             _orderDal.Delete(new Order { OrderId = orderId });
         }
+
+        public Order GetByTableIdAndItemId(int tableId, int itemId)
+        {
+            return _orderDal.Get(p => p.TableId == tableId && p.ItemId == itemId);
+        }
     }
 }

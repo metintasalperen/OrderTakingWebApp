@@ -36,5 +36,10 @@ namespace Business.Concrete
         {
             return _menuDal.Get(p => p.ItemId == id);
         }
+
+        public void Update(MenuItem item)
+        {
+            _menuDal.Update(item);
+        }
     }
 }

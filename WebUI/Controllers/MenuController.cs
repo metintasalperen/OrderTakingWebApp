@@ -4,6 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +17,28 @@ namespace WebUI.Controllers
     public class MenuController : Controller
     {
         private IMenuService _menuService;
-        public MenuController(IMenuService menuService)
+        private ITableService _tableService;
+        private IUserService _userService;
+        public MenuController(IMenuService menuService, ITableService tableService, IUserService userService)
         {
             _menuService = menuService;
+            _tableService = tableService;
+            _userService = userService;
         }
         public IActionResult Index(int table, string category = "none")
         {
-            //int pageSize = 10;
+            //assign waiter
+            Table current_table = _tableService.GetByTableId(table);
+            if (current_table == null)
+                return BadRequest();
+
+            //TODO get token and compare if not emtpty
+            if (current_table.IsEmpty)
+            {
+                //current_table.IsEmpty = false;
+                //_tableService.Update(current_table);
+            }
+            
             var menu = _menuService.GetByCategory(category);
             List<MenuItemBasketDto> basket = SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session,"basket");
             if (basket == null)
@@ -30,7 +46,6 @@ namespace WebUI.Controllers
 
             MenuViewModel model = new MenuViewModel
             {
-                //Menu = menu.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
                 TableNumber = table,
                 Menu = menu,
                 Categories = _menuService.GetCategories(),
