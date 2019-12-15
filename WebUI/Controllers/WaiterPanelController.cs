@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Constants;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
@@ -54,10 +55,28 @@ namespace WebUI.Controllers
         public IActionResult MakeDelivered(int orderId, int table)
         {
             var entity = _orderService.GetByOrderId(orderId);
+            var allEntities = _orderService.GetAll();
+            
+            IEnumerable<Order> sameMenuItemWithDelivered = //query variable
+                 from order in allEntities //required
+                 where order.ItemId == entity.ItemId && order.TableId == entity.TableId && order.IsDelivered == true
+                 select order; //must end with select or group
+
+            List<Order> sameMenuItemWithDeliveredList = sameMenuItemWithDelivered.ToList();
             if (entity != null)
             {
-                entity.IsDelivered = true;
-                _orderService.Update(entity);
+                if(!sameMenuItemWithDeliveredList.Any())
+                {
+                    entity.IsDelivered = true;
+                    _orderService.Update(entity);
+                }
+                else
+                {
+                    sameMenuItemWithDeliveredList[0].Quantity += entity.Quantity;
+                    _orderService.Update(sameMenuItemWithDeliveredList[0]);
+                    _orderService.Delete(entity.OrderId);
+                }
+
             }
 
             var orders = _orderService.GetAll();
