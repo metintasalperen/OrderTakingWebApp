@@ -4,6 +4,10 @@
 }
 
     <div class="w-75" style="margin:auto">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-info" role="alert">@TempData["message"]</div>
+        }
         <a class="btn btn-xs btn-success" asp-controller="AdminPanel" asp-action="Add">Add New Item</a>
         <a class="list-group-item"><h3>Categories</h3></a>
         @foreach (var category in Model.Categories)
