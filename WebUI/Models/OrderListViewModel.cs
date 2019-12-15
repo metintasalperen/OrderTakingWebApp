@@ -13,7 +13,7 @@ namespace WebUI.Models
         public int WaiterId { get; internal set; }
         public List<MenuItem> Menu { get; internal set; }
         public List<Table> Table { get; internal set; }
-        public StringValues CurrentCategory { get; internal set; }
+        public int CurrentTable { get; internal set; }
         public List<Order> TableOrders { get; internal set; }
     }
 }

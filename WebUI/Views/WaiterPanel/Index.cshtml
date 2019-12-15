@@ -14,7 +14,7 @@
             @foreach (var table in Model.Table)
             {
                 var css = "list-group-item";
-                if (table == Model.CurrentCategory)
+                if (table.TableId == Model.CurrentTable)
                 {
                     css += " active";
                 }
@@ -28,7 +28,7 @@
                             </th>
 
                             <th>
-                                <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeAvailable" asp-route-tableId="@item.TableId">Make It Available!</a>
+                                <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeAvailable" asp-route-tableId="@item.TableId">Get Account!</a>
                             </th>
                         </tr>
 

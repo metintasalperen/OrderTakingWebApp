@@ -46,7 +46,7 @@ namespace WebUI.Controllers
                 Orders = orders.ToList(),
                 Menu = menus.ToList(),
                 Table = tables.ToList(),
-                CurrentCategory = HttpContext.Request.Query["tableid"],
+                CurrentTable = table,
                 TableOrders = tableOrders.ToList(),
                 WaiterId = Int32.Parse(userId)
             };
@@ -90,13 +90,31 @@ namespace WebUI.Controllers
                 Orders = orders.ToList(),
                 Menu = menus.ToList(),
                 Table = tables.ToList(),
-                CurrentCategory = HttpContext.Request.Query["tableid"],
+                CurrentTable = table,
                 TableOrders = tableOrders.ToList(),
                 WaiterId = Int32.Parse(userId)
             };
             return View("Index", model);
         }
-        public IActionResult MakeAvailable(int tableId, int table)
+        public IActionResult MakeAvailable(int tableId)
+        {
+            var orders = _orderService.GetAll();
+            var tableOrders = _orderService.GetByTableId(tableId);
+            var menus = _menuService.GetAll();
+            var tables = _tableService.GetAll();
+            var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            OrderListViewModel model = new OrderListViewModel
+            {
+                Orders = orders.ToList(),
+                Menu = menus.ToList(),
+                Table = tables.ToList(),
+                CurrentTable = tableId,
+                TableOrders = tableOrders.ToList(),
+                WaiterId = Int32.Parse(userId)
+            };
+            return View("Payment", model);
+        }
+        public IActionResult BackToIndex(int tableId,int table = 0)
         {
             var tableEntity = _tableService.GetByTableId(tableId);
             if (tableEntity != null)
@@ -112,7 +130,7 @@ namespace WebUI.Controllers
             }
 
             var orders = _orderService.GetAll();
-            var tableOrders = _orderService.GetByTableId(table);
+            var tableOrders = _orderService.GetByTableId(0);
             var menus = _menuService.GetAll();
             var tables = _tableService.GetAll();
             var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
@@ -121,7 +139,7 @@ namespace WebUI.Controllers
                 Orders = orders.ToList(),
                 Menu = menus.ToList(),
                 Table = tables.ToList(),
-                CurrentCategory = HttpContext.Request.Query["tableid"],
+                CurrentTable = table,
                 TableOrders = tableOrders.ToList(),
                 WaiterId = Int32.Parse(userId)
             };
