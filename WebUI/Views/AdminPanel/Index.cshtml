@@ -1,0 +1,58 @@
+﻿@model WebUI.Models.AdminPanelMenuModel
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+    <div class="w-75" style="margin:auto">
+        <a class="btn btn-xs btn-success" asp-controller="AdminPanel" asp-action="Insert">Add New Item</a>
+        <a class="list-group-item"><h3>Categories</h3></a>
+        @foreach (var category in Model.Categories)
+        {
+            var css = "list-group-item";
+            if (category == Model.CurrentCategory)
+            {
+                css += " active";
+            }
+            else
+            {
+                css += " list-group-item-info";
+            }
+            <a href="/adminpanel/index?category=@category" class="@css">@category</a>
+
+            if (category == Model.CurrentCategory)
+            {
+                <div class="table-responsive">
+                    <table class="table" align="center">
+                        <tr>
+                            <td style="text-align:center" width="10%">Image</td>
+                            <td style="text-align:center" width="15%">Name</td>
+                            <td style="text-align:center" width="20%">Explanation</td>
+                            <td style="text-align:center" width="10%">Price</td>
+                            <td style="text-align:center" width="10%">Sold</td>
+                            <td style="text-align:center" width="15%">Availability</td>
+                            <td style="text-align:center" width="10%">Update</td>
+                            <td style="text-align:center" width="10%">Delete</td>
+                        </tr>
+                        @foreach (var item in Model.Menu)
+                        {
+                            <tr>
+                                <td style="text-align:center" width="20%"><img src="@item.ImagePath" alt="@item.Name" width="100" height="50" /></td>
+                                <td style="text-align:center" width="15%">@item.Name</td>
+                                <td style="text-align:center" width="30%">
+                                    @if (item.Explanation != null)
+                                    {
+                                        @item.Explanation
+                                    }
+                                </td>
+                                <td style="text-align:center" width="10%">@item.Price ₺</td>
+                                <td style="text-align:center" width="10%">@item.Sold</td>
+                                <td style="text-align:center" width="15%">@item.IsAvailable</td>
+                                <td><a class="btn btn-xs btn-info" asp-controller="AdminPanel" asp-action="Update" asp-route-itemId="@item.ItemId">Update</a></td>
+                                <td><a class="btn btn-xs btn-danger" asp-controller="AdminPanel" asp-action="Delete" asp-route-itemId="@item.ItemId">Delete</a></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        }
+    </div>
