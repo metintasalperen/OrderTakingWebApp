@@ -9,6 +9,12 @@
     @if (Model.Action == "list")
     {
         <form method="post" asp-controller="Table" asp-action="EditTable">
+            <div class="col-md-10" style="margin:auto">
+                @if (TempData["editMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["editMessage"]</div>
+                }
+            </div>
             <table class="table" align="center">
                 <tr>
                     <th>Choose Table</th>
@@ -50,7 +56,7 @@
                     <tr>
                         <th>Is Empty:</th>
                         <td>
-                            <input name="IsEmpty" type="radio" value="True" />Empty
+                            <input name="IsEmpty" type="radio" value="True" checked />Empty
                             <input name="IsEmpty" type="radio" value="False" />Full
                         </td>
                     </tr>
@@ -65,6 +71,12 @@
     else if (Model.Action == "delete")
     {
         <form method="post" asp-controller="Table" asp-action="DeleteTable">
+            <div class="col-md-10" style="margin:auto">
+                @if (TempData["deleteMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["deleteMessage"]</div>
+                }
+            </div>
             <table class="table" align="center">
                 <tr>
                     <th>Choose Table</th>

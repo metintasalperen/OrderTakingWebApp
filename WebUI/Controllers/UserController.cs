@@ -40,6 +40,15 @@ namespace WebUI.Controllers
         [Authorize(Roles = Roles.Admin)]
         public IActionResult CreateUser(UserForRegisterDto toAdd)
         {
+            if (String.IsNullOrEmpty(toAdd.UserName) ||String.IsNullOrEmpty(toAdd.FirstName) || String.IsNullOrEmpty(toAdd.LastName) || String.IsNullOrEmpty(toAdd.Password)|| String.IsNullOrEmpty(toAdd.Role))
+            {
+                UserViewModel blankFields = new UserViewModel
+                {
+                    Action = "create"
+                };
+                TempData.Add("createMessage", "Please provide all info!");
+                return View("Index", blankFields);
+            }
             var result = _authService.Register(toAdd, toAdd.Password);
             var waiters = _userService.GetByRole(Roles.Waiter);
             UserViewModel model = new UserViewModel
@@ -60,6 +69,16 @@ namespace WebUI.Controllers
             var exist = _userService.GetByUserId(chosenUser);
             if (exist != null)
             {
+                if (String.IsNullOrEmpty(toUpdate.FirstName) || String.IsNullOrEmpty(toUpdate.LastName) || String.IsNullOrEmpty(toUpdate.Password))
+                {
+                    UserViewModel blankFields = new UserViewModel
+                    {
+                        ChosenUser = exist,
+                        Action =  "edit"
+                    };
+                    TempData.Add("updateMessage", "Please provide all info!");
+                    return View("Index", blankFields);
+                }
                 byte[] passwordHash, passwordSalt;
                 HashingHelper.CreatePasswordHash(toUpdate.Password, out passwordHash, out passwordSalt);
                 exist.FirstName = toUpdate.FirstName;
@@ -82,7 +101,17 @@ namespace WebUI.Controllers
         public IActionResult EditUser(int chosenUser)
         {
             User toEdit = _userService.GetByUserId(chosenUser);
-
+            if(toEdit == null)
+            {
+                var waiters = _userService.GetByRole(Roles.Waiter);
+                TempData.Add("editMessage", "Please choose user!");
+                UserViewModel list = new UserViewModel
+                {
+                    Users = waiters,
+                    Action = "list"
+                };
+                return View("Index", list);
+            }
             UserViewModel model = new UserViewModel
             {
                 ChosenUser = toEdit,
@@ -98,6 +127,10 @@ namespace WebUI.Controllers
             if (entity != null)
             {
                 _userService.Delete(chosenUser);
+            }
+            else
+            {
+                TempData.Add("deleteMessage", "Please choose user!");
             }
             var waiters = _userService.GetByRole(Roles.Waiter);
             UserViewModel model = new UserViewModel

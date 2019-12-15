@@ -47,6 +47,10 @@
                 </tr>
 
             </table>
+            @if (TempData["editMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert">@TempData["editMessage"]</div>
+            }
         </form>
     }
     else if (Model.Action == "create")
@@ -128,13 +132,13 @@
                         <td>
                             @if (Model.ChosenUser.Role == "Admin")
                             {
-                                <input name="Role" type="radio" value="Admin" checked /> <p>Admin</p>
-                                <input name="Role" type="radio" value="Waiter" /><p>Waiter</p>
+                                <input name="Role" type="radio" value="Admin" checked /> <b>Admin</b>
+                                <input name="Role" type="radio" value="Waiter" /><b>Waiter</b>
                             }
                             else
                             {
-                                <input name="Role" type="radio" value="Admin" /> <p>Admin</p>
-                                <input name="Role" type="radio" value="Waiter" checked /><p>Waiter</p>
+                                <input name="Role" type="radio" value="Admin" /> <b>Admin</b>
+                                <input name="Role" type="radio" value="Waiter" checked /><b>Waiter</b>
                             }
                         </td>
                     </tr>
@@ -148,6 +152,12 @@
     else if (Model.Action == "delete")
     {
         <form method="post" asp-controller="User" asp-action="DeleteUser">
+            <div class="col-md-10" style="margin:auto">
+                @if (TempData["deleteMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["deleteMessage"]</div>
+                }
+            </div>
             <table class="table" align="center">
                 <tr>
                     <th>Choose User</th>

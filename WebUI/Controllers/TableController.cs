@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Constants;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
 namespace WebUI.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class TableController : Controller
     {
         private ITableService _tableService;
@@ -47,6 +50,10 @@ namespace WebUI.Controllers
             {
                 _tableService.Delete(chosenTable);
             }
+            else
+            {
+                TempData.Add("deleteMessage", "Please choose table!");
+            }
             var tables = _tableService.GetAll();
             TableViewModel model = new TableViewModel
             {
@@ -63,6 +70,10 @@ namespace WebUI.Controllers
             {
                 toEdit.IsEmpty = !toEdit.IsEmpty;
                 _tableService.Update(toEdit);
+            }
+            else
+            {
+                TempData.Add("editMessage", "Please choose table!");
             }
             var tables = _tableService.GetAll();
             TableViewModel model = new TableViewModel
