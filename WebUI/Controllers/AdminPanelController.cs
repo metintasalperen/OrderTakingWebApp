@@ -17,7 +17,7 @@ namespace WebUI.Controllers
         {
             _menuService = menuService;
         }
-        public IActionResult Index(string category = "none")
+        public IActionResult Menu(string category = "none")
         {
             var menu = _menuService.GetAll();
             AdminPanelMenuModel model = new AdminPanelMenuModel
@@ -29,11 +29,13 @@ namespace WebUI.Controllers
             return View(model);
         }
 
+        [Route("/adminpanel/menu/add")]
         public IActionResult Add()
         {
             return View();
         }
 
+        [Route("/adminpanel/menu/add")]
         [HttpPost]
         public IActionResult Add(MenuItem menuItem)
         {
