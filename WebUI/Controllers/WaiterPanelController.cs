@@ -79,22 +79,7 @@ namespace WebUI.Controllers
 
             }
 
-            var orders = _orderService.GetAll();
-            var tableOrders = _orderService.GetByTableId(table);
-            var menus = _menuService.GetAll();
-            var tables = _tableService.GetAll();
-
-            var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            OrderListViewModel model = new OrderListViewModel
-            {
-                Orders = orders.ToList(),
-                Menu = menus.ToList(),
-                Table = tables.ToList(),
-                CurrentTable = table,
-                TableOrders = tableOrders.ToList(),
-                WaiterId = Int32.Parse(userId)
-            };
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
         public IActionResult MakeAvailable(int tableId)
         {
@@ -129,21 +114,7 @@ namespace WebUI.Controllers
                 _orderService.Delete(item.OrderId);
             }
 
-            var orders = _orderService.GetAll();
-            var tableOrders = _orderService.GetByTableId(0);
-            var menus = _menuService.GetAll();
-            var tables = _tableService.GetAll();
-            var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
-            OrderListViewModel model = new OrderListViewModel
-            {
-                Orders = orders.ToList(),
-                Menu = menus.ToList(),
-                Table = tables.ToList(),
-                CurrentTable = table,
-                TableOrders = tableOrders.ToList(),
-                WaiterId = Int32.Parse(userId)
-            };
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
     }
 }
