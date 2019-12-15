@@ -41,5 +41,10 @@ namespace Business.Concrete
         {
             _menuDal.Update(item);
         }
+
+        public void Add(MenuItem item)
+        {
+            _menuDal.Add(item);
+        }
     }
 }

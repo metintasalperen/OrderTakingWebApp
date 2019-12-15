@@ -10,5 +10,6 @@ namespace Business.Abstract
         List<string> GetCategories();
         List<MenuItem> GetByCategory(string category);
         void Update(MenuItem item);
+        void Add(MenuItem item);
     }
 }
