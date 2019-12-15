@@ -65,28 +65,36 @@ namespace WebUI.Controllers
                 basket = new List<MenuItemBasketDto>();
 
             bool exists = false;
+            MenuItemBasketDto zero = null;
             foreach (var i in basket)
             {
                 if (i.itemId == item.itemId)
                 {
+                    exists = true;
                     if (item.isUpdate == 0)
                     {
-                        exists = true;
                         i.quantity += item.quantity;
                     }
                     else
                     {
                         i.quantity = item.quantity;
-                        if (i.quantity > 0)
-                            exists = true;
+                        if (i.quantity == 0)
+                            zero = i;
                     }
                 }
+            }
+
+            if (zero != null)
+            {
+                basket.Remove(zero);
             }
 
             if (!exists)
             {
                 basket.Add(item);
             }
+
+
             SessionExtensionMethods.SetObject(HttpContext.Session,"basket", basket);
 
             var menu = _menuService.GetByCategory(category);
