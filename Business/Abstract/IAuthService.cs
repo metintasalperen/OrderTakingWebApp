@@ -13,6 +13,6 @@ namespace Business.Abstract
 
         bool UserExist(string userName);
         IDataResult<AccessToken> CreateAccessToken(User user);
-        IDataResult<AccessToken> CreateAccessTokenForCustomer(int tableId, string role, int waiterId)
+        IDataResult<AccessToken> CreateAccessTokenForCustomer(int tableId, string role, int waiterId);
     }
 }

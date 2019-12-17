@@ -240,21 +240,48 @@ namespace WebUI.Controllers
         [Route("/adminpanel/menu/update")]
         [Authorize(Roles = Roles.Admin)]
         [HttpPost]
-        public IActionResult Update(MenuItem menuItem)
+        public IActionResult Update(AdminPanelMenuUpdateModel updateModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _menuService.Update(menuItem);
+                    MenuItem oldItem = _menuService.GetById(updateModel.MenuItem.ItemId);
+                    if (!string.IsNullOrEmpty(oldItem.ImagePath))
+                    {
+                        if (System.IO.File.Exists(oldItem.ImagePath))
+                        {
+                            System.IO.File.Delete(oldItem.ImagePath);
+                        }
+                    }
+                    var files = HttpContext.Request.Form.Files;
+                    foreach (var Image in files)
+                    {
+                        if (Image != null && Image.Length > 0)
+                        {
+                            var file = Image;
+                            var path = Path.Combine(_env.WebRootPath, "img");
+                            if (ImageUploader.UploadImage(file, path))
+                            {
+                                updateModel.MenuItem.ImagePath = "/img/" + file.FileName;
+                            }
+                            else
+                            {
+                                _menuService.Add(updateModel.MenuItem);
+                                TempData.Add("message", "Item updated without picture!");
+                                return RedirectToAction("Menu");
+                            }
+                        }
+                    }
+                    _menuService.Update(updateModel.MenuItem);
                     TempData.Add("message", "Item successfully updated!");
 
                 } catch (Exception ex)
                 {
                     string error = ex.InnerException.Message;
-                    string oldName = _menuService.GetById(menuItem.ItemId).Name;
+                    string oldName = _menuService.GetById(updateModel.MenuItem.ItemId).Name;
                     if (error.Contains("Cannot insert duplicate key row in object"))
-                        TempData.Add("message", "Update failed! Can not rename " + oldName + " to " + menuItem.Name + ". Because " + oldName + " already exist in menu");
+                        TempData.Add("message", "Update failed! Can not rename " + oldName + " to " + updateModel.MenuItem.Name + ". Because " + oldName + " already exist in menu");
                     else
                         TempData.Add("message", "Update failed! " + error);
                 }
