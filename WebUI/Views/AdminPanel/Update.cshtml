@@ -2,40 +2,40 @@
 
 @{
     ViewBag.Title = "title";
-    Layout = "~/Views/_Layout.cshtml";
+    Layout = "~/Views/_AdminPanelLayout.cshtml";
 }
 
-    <div class="w-75" style="margin:auto">
-        <h2>Update an Item from Menu!</h2>
+<div class="w-75" style="margin:auto">
+    <h2>Update an Item from Menu!</h2>
 
-        <form asp-controller="AdminPanel" asp-action="Update" method="post">
-            <div class="form-group">
-                <label asp-for="MenuItem.Name"></label>
-                <input asp-for="MenuItem.Name" class="form-control" placeholder="Name" />
-                <span asp-validation-for="MenuItem.Name"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MenuItem.Category"></label>
-                <input asp-for="MenuItem.Category" class="form-control" placeholder="Category" />
-                <span asp-validation-for="MenuItem.Category"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MenuItem.IsAvailable"></label>
-                <input asp-for="MenuItem.IsAvailable" class="form-control" placeholder="Availability" />
-                <span asp-validation-for="MenuItem.IsAvailable"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MenuItem.Explanation"></label>
-                <input asp-for="MenuItem.Explanation" class="form-control" placeholder="Explanation" />
-                <span asp-validation-for="MenuItem.Explanation"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MenuItem.Price"></label>
-                <input asp-for="MenuItem.Price" class="form-control" placeholder="Price" />
-                <span asp-validation-for="MenuItem.Price"></span>
-            </div>
-            <input type="hidden" asp-for="MenuItem.ItemId" />
-            <input type="hidden" asp-for="MenuItem.Sold" />
-            <input type="submit" value="Update" class="btn btn-xs btn-success" />
-        </form>
-    </div>
+    <form asp-controller="AdminPanel" asp-action="Update" method="post">
+        <div class="form-group">
+            <label asp-for="MenuItem.Name"></label>
+            <input asp-for="MenuItem.Name" class="form-control" placeholder="Name" />
+            <span asp-validation-for="MenuItem.Name"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MenuItem.Category"></label>
+            <input asp-for="MenuItem.Category" class="form-control" placeholder="Category" />
+            <span asp-validation-for="MenuItem.Category"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MenuItem.IsAvailable"></label>
+            <input asp-for="MenuItem.IsAvailable" class="form-control" placeholder="Availability" />
+            <span asp-validation-for="MenuItem.IsAvailable"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MenuItem.Explanation"></label>
+            <input asp-for="MenuItem.Explanation" class="form-control" placeholder="Explanation" />
+            <span asp-validation-for="MenuItem.Explanation"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MenuItem.Price"></label>
+            <input asp-for="MenuItem.Price" class="form-control" placeholder="Price" />
+            <span asp-validation-for="MenuItem.Price"></span>
+        </div>
+        <input type="hidden" asp-for="MenuItem.ItemId" />
+        <input type="hidden" asp-for="MenuItem.Sold" />
+        <input type="submit" value="Update" class="btn btn-xs btn-success" />
+    </form>
+</div>
