@@ -8,7 +8,12 @@
     <div class="w-75" style="margin:auto">
         <h2>Add a Item to Menu!</h2>
 
-        <form asp-controller="AdminPanel" asp-action="Add" method="post">
+        <form enctype="multipart/form-data" asp-controller="AdminPanel" asp-action="Add" method="post">
+            <div class="form-group">
+                <label asp-for="Image"></label>
+                <input asp-for="Image" class="form-control" type="file" accept="image/*" placeholder="Image">
+                <span asp-validation-for="Image"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="MenuItem.Name"></label>
                 <input asp-for="MenuItem.Name" class="form-control" placeholder="Name" />

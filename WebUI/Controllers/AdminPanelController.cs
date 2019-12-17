@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
@@ -9,8 +10,10 @@ using Core.Utilities.Hashing;
 using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
+using WebUI.Utilities;
 
 namespace WebUI.Controllers
 {
@@ -19,12 +22,14 @@ namespace WebUI.Controllers
         private IMenuService _menuService;
         private IAuthService _authService;
         private IUserService _userService;
+        private readonly IWebHostEnvironment _env;
 
-        public AdminPanelController(IMenuService menuService, IAuthService authService, IUserService userService)
+        public AdminPanelController(IMenuService menuService, IAuthService authService, IUserService userService, IWebHostEnvironment env)
         {
             _menuService = menuService;
             _authService = authService;
             _userService = userService;
+            _env = env;
         }
 
         [Authorize(Roles = Roles.Admin)]
@@ -176,21 +181,40 @@ namespace WebUI.Controllers
         [Route("/adminpanel/menu/add")]
         [Authorize(Roles = Roles.Admin)]
         [HttpPost]
-        public IActionResult Add(MenuItem menuItem)
+        public IActionResult Add(AdminPanelMenuAddModel addModel)
         {
             if (ModelState.IsValid)
-            {
+             {
                 try
                 {
-                    _menuService.Add(menuItem);
-                    TempData.Add("message", "Item successfully updated!");
+                    var files = HttpContext.Request.Form.Files;
+                    foreach(var Image in files)
+                    {
+                        if (Image != null && Image.Length > 0)
+                        {
+                            var file = Image;
+                            var path = Path.Combine(_env.WebRootPath, "img");
+                            if (ImageUploader.UploadImage(file, path))
+                            {
+                                addModel.MenuItem.ImagePath = "/img/" + file.FileName;
+                            }
+                            else
+                            {
+                                _menuService.Add(addModel.MenuItem);
+                                TempData.Add("message", "Item added without picture!");
+                                return RedirectToAction("Menu");
+                            }
+                        }
+                    }
+                    _menuService.Add(addModel.MenuItem);
+                    TempData.Add("message", "Item successfully added!");
 
                 }
                 catch (Exception ex)
                 {
                     string error = ex.InnerException.Message;
                     if (error.Contains("Cannot insert duplicate key row in object"))
-                        TempData.Add("message", "Insertion failed! " + menuItem.Name + " is aready exist!");
+                        TempData.Add("message", "Insertion failed! " + addModel.MenuItem.Name + " is aready exist!");
                     else
                         TempData.Add("message", "Insertion failed! " + error);
                 }
@@ -222,12 +246,6 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    /*var oldItem = _menuService.GetById(menuItem.ItemId);
-                    oldItem.Name = menuItem.Name;
-                    oldItem.Category = menuItem.Category;
-                    oldItem.IsAvailable = menuItem.IsAvailable;
-                    oldItem.Price = menuItem.Price;
-                    oldItem.Explanation = menuItem.Explanation;*/
                     _menuService.Update(menuItem);
                     TempData.Add("message", "Item successfully updated!");
 
