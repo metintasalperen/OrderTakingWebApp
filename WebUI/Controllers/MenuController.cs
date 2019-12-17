@@ -66,16 +66,29 @@ namespace WebUI.Controllers
             _userService.Update(waiter);
             if (!current_table.IsApproved)
             {
-                Order order = new Order
+                var tableOrders = _orderService.GetByTableId(current_table.TableId);
+                bool dummy = false;
+                foreach(var item in tableOrders)
                 {
-                    ItemId = _menuService.GetAll().ElementAt(0).ItemId,
-                    TableId = current_table.TableId,
-                    WaiterId = waiter_id,
-                    Quantity = 1,
-                    IsDelivered = false,
-                    IsDummy = true,
-                };
-                _orderService.Add(order);
+                    if (item.IsDummy)
+                    {
+                        dummy = true;
+                        break;
+                    }
+                }
+                if (!dummy)
+                {
+                    Order order = new Order
+                    {
+                        ItemId = _menuService.GetAll().ElementAt(0).ItemId,
+                        TableId = current_table.TableId,
+                        WaiterId = waiter_id,
+                        Quantity = 1,
+                        IsDelivered = false,
+                        IsDummy = true,
+                    };
+                    _orderService.Add(order);
+                }
             }
 
 

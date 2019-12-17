@@ -3,6 +3,7 @@
     Layout = "~/Views/_WaiterPanelLayout.cshtml";
 }
 
+<meta http-equiv="refresh" content="5">
 <div class="col-4">
     <table class="table">
 
@@ -82,7 +83,10 @@
 
 @if (Model.DummyOrders.Any())
 {
-
+    <script>
+        let audio = new Audio('/sound/eventually.mp3');
+        audio.play();
+    </script>
     <div class="col-12">
         <table class="table">
             @foreach (var dummyItem in Model.DummyOrders)

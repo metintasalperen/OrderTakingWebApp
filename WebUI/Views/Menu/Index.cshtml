@@ -99,6 +99,10 @@
                                 {
                                     <input type="submit" class="btn btn-success" value="Give Order!" />
                                 }
+                                @if (!Model.IsApproved)
+                                {
+                                    <meta http-equiv="refresh" content="5">
+                                }
                             </form>
                         </td>
                     </tr>

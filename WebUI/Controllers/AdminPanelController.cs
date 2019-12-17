@@ -17,6 +17,7 @@ using WebUI.Utilities;
 
 namespace WebUI.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class AdminPanelController : Controller
     {
         private IMenuService _menuService;
@@ -34,13 +35,11 @@ namespace WebUI.Controllers
             _env = env;
         }
 
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize(Roles = Roles.Admin)]
         public new IActionResult User(string operation = "none")
         {
             var waiters = _userService.GetByRole(Roles.Waiter);
@@ -53,7 +52,6 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         [Route("/adminpanel/user/createuser")]
         public IActionResult CreateUser(UserForRegisterDto toAdd)
         {
@@ -80,7 +78,6 @@ namespace WebUI.Controllers
             return View("User", model);
         }
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         [Route("/adminpanel/user/updateuser")]
         public IActionResult UpdateUser(UserForRegisterDto toUpdate, int chosenUser)
         {
@@ -115,7 +112,6 @@ namespace WebUI.Controllers
             };
             return View("User", model);
         }
-        [Authorize(Roles = Roles.Admin)]
         [Route("/adminpanel/user/edituser")]
         public IActionResult EditUser(int chosenUser)
         {
@@ -139,7 +135,6 @@ namespace WebUI.Controllers
             return View("User", model);
         }
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         [Route("/adminpanel/user/deleteuser")]
         public IActionResult DeleteUser(int chosenUser)
         {
@@ -160,7 +155,6 @@ namespace WebUI.Controllers
             };
             return View("User", model);
         }
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult Table(string operation = "none")
         {
             var tables = _tableService.GetAll();
@@ -172,7 +166,6 @@ namespace WebUI.Controllers
             return View(model);
         }
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult CreateTable(Table toAdd)
         {
             _tableService.Add(toAdd);
@@ -186,7 +179,6 @@ namespace WebUI.Controllers
             return View("Table", model);
         }
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult DeleteTable(int chosenTable)
         {
             var entity = _tableService.GetByTableId(chosenTable);
@@ -207,7 +199,6 @@ namespace WebUI.Controllers
             return View("Table", model);
         }
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult EditTable(int chosenTable)
         {
             Table toEdit = _tableService.GetByTableId(chosenTable);
@@ -228,7 +219,6 @@ namespace WebUI.Controllers
             };
             return View("Table", model);
         }
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult Menu(string category = "none")
         {
             var menu = _menuService.GetAll();
@@ -248,7 +238,6 @@ namespace WebUI.Controllers
         }
 
         [Route("/adminpanel/menu/add")]
-        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public IActionResult Add(AdminPanelMenuAddModel addModel)
         {
@@ -296,7 +285,6 @@ namespace WebUI.Controllers
         }
 
         [Route("/adminpanel/menu/update")]
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult Update(int itemId)
         {
             var model = new AdminPanelMenuUpdateModel
@@ -307,7 +295,6 @@ namespace WebUI.Controllers
         }
 
         [Route("/adminpanel/menu/update")]
-        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public IActionResult Update(AdminPanelMenuUpdateModel updateModel)
         {
@@ -363,7 +350,6 @@ namespace WebUI.Controllers
         }
 
         [Route("/adminpanel/menu/delete")]
-        [Authorize(Roles = Roles.Admin)]
         public IActionResult Delete(int itemId)
         {
             try
