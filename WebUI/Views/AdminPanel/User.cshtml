@@ -1,14 +1,14 @@
 ﻿@model WebUI.Models.UserViewModel
 @{
-    Layout = "~/Views/_Layout.cshtml";
+    Layout = "~/Views/_AdminPanelLayout.cshtml";
 }
 <div class="w-75" style="margin:auto">
-    <a href="/user/index?operation=create">Create User</a>
-    <a href="/user/index?operation=delete">Delete User</a>
-    <a href="/user/index?operation=list">List Users</a>
+    <a href="/adminpanel/user?operation=create">Create User</a>
+    <a href="/adminpanel/user?operation=delete">Delete User</a>
+    <a href="/adminpanel/user?operation=list">List Users</a>
     @if (Model.Action == "list")
     {
-        <form method="get" asp-controller="User" asp-action="EditUser">
+        <form method="get" asp-controller="AdminPanel" asp-action="EditUser">
             <table class="table" align="center">
                 <tr>
                     <th>Choose User</th>
@@ -55,7 +55,7 @@
     }
     else if (Model.Action == "create")
     {
-        <form method="post" asp-controller="User" asp-action="CreateUser">
+        <form method="post" asp-controller="AdminPanel" asp-action="CreateUser">
             <div class="col-md-10" style="margin:auto">
                 @if (TempData["createMessage"] != null)
                 {
@@ -100,7 +100,7 @@
     }
     else if (Model.Action == "edit")
     {
-        <form method="post" asp-controller="User" asp-action="UpdateUser">
+        <form method="post" asp-controller="AdminPanel" asp-action="UpdateUser">
             <div class="col-md-10" style="margin:auto">
                 @if (TempData["updateMessage"] != null)
                 {
@@ -151,7 +151,7 @@
     }
     else if (Model.Action == "delete")
     {
-        <form method="post" asp-controller="User" asp-action="DeleteUser">
+        <form method="post" asp-controller="AdminPanel" asp-action="DeleteUser">
             <div class="col-md-10" style="margin:auto">
                 @if (TempData["deleteMessage"] != null)
                 {

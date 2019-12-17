@@ -31,7 +31,7 @@ namespace WebUI.Controllers
                 }
                 else if (userRole == Roles.Admin)
                 {
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("Index", "AdminPanel");
                 }
             }
             return View();
@@ -63,7 +63,7 @@ namespace WebUI.Controllers
 
             HttpContext.Session.SetString("JWToken", result.Data.Token);
 
-            return userToLogin.Data.Role == Roles.Admin ? RedirectToAction("Index", "User") :
+            return userToLogin.Data.Role == Roles.Admin ? RedirectToAction("Index", "AdminPanel") :
                 RedirectToAction("Index", "WaiterPanel");
         }
     }
