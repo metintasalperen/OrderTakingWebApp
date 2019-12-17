@@ -22,13 +22,15 @@ namespace WebUI.Controllers
         private IMenuService _menuService;
         private IAuthService _authService;
         private IUserService _userService;
+        private ITableService _tableService;
         private readonly IWebHostEnvironment _env;
 
-        public AdminPanelController(IMenuService menuService, IAuthService authService, IUserService userService, IWebHostEnvironment env)
+        public AdminPanelController(IMenuService menuService, IAuthService authService, IUserService userService, ITableService tableService, IWebHostEnvironment env)
         {
             _menuService = menuService;
             _authService = authService;
             _userService = userService;
+            _tableService = tableService;
             _env = env;
         }
 
@@ -158,7 +160,74 @@ namespace WebUI.Controllers
             };
             return View("User", model);
         }
-
+        [Authorize(Roles = Roles.Admin)]
+        public IActionResult Table(string operation = "none")
+        {
+            var tables = _tableService.GetAll();
+            TableViewModel model = new TableViewModel
+            {
+                Tables = tables,
+                Action = operation
+            };
+            return View(model);
+        }
+        [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
+        public IActionResult CreateTable(Table toAdd)
+        {
+            _tableService.Add(toAdd);
+            var tables = _tableService.GetAll();
+            TableViewModel model = new TableViewModel
+            {
+                Tables = tables,
+                Action = "create"
+            };
+            TempData.Add("createMessage", "Table Created!");
+            return View("Table", model);
+        }
+        [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
+        public IActionResult DeleteTable(int chosenTable)
+        {
+            var entity = _tableService.GetByTableId(chosenTable);
+            if (entity != null)
+            {
+                _tableService.Delete(chosenTable);
+            }
+            else
+            {
+                TempData.Add("deleteMessage", "Please choose table!");
+            }
+            var tables = _tableService.GetAll();
+            TableViewModel model = new TableViewModel
+            {
+                Tables = tables,
+                Action = "delete"
+            };
+            return View("Table", model);
+        }
+        [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
+        public IActionResult EditTable(int chosenTable)
+        {
+            Table toEdit = _tableService.GetByTableId(chosenTable);
+            if (toEdit != null)
+            {
+                toEdit.IsEmpty = !toEdit.IsEmpty;
+                _tableService.Update(toEdit);
+            }
+            else
+            {
+                TempData.Add("editMessage", "Please choose table!");
+            }
+            var tables = _tableService.GetAll();
+            TableViewModel model = new TableViewModel
+            {
+                Tables = tables,
+                Action = "list"
+            };
+            return View("Table", model);
+        }
         [Authorize(Roles = Roles.Admin)]
         public IActionResult Menu(string category = "none")
         {
