@@ -6,6 +6,7 @@ using Core.Utilities.Results;
 using Core.Utilities.Security.Jwt;
 using Entities.Concrete;
 using Entities.Dtos;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.Concrete
 {
@@ -81,6 +82,20 @@ namespace Business.Concrete
         {
             var accessToken = _tokenHelper.CreateTokenForCustomer(tableId, role);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+        }
+
+        public IResult LogOut(ISession session)
+        {
+            try
+            {
+                session.Clear();
+                return new Result(true, Messages.LogoutSuccessful);
+            }
+            catch
+            {
+                return new Result(false, Messages.LogoutFailed);
+            }
+
         }
     }
 }

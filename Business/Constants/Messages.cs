@@ -11,5 +11,7 @@ namespace Business.Constants
         public static string RegisterSuccess = "Register is success!";
         public static string RegisterFailed = "Register is failed!";
         public static string AccessTokenCreated = "Access Token is created!";
+        public static string LogoutSuccessful = "Logout is successful!";
+        public static string LogoutFailed = "Logout is failed!";
     }
 }
