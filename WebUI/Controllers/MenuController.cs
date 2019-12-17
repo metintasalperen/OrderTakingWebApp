@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 using Entities.Dtos;
 using WebUI.ExtensionMethods;
-using RestSharp;
 using System.Security.Claims;
 
 namespace WebUI.Controllers
@@ -23,14 +22,14 @@ namespace WebUI.Controllers
         private ITableService _tableService;
         private IUserService _userService;
         private IAuthService _authService;
-        private IHttpContextAccessor _httpContextAccessor;
-        public MenuController(IMenuService menuService, ITableService tableService, IUserService userService, IAuthService authService, IHttpContextAccessor httpContextAccessor)
+        private IOrderService _orderService;
+        public MenuController(IMenuService menuService, ITableService tableService, IUserService userService, IAuthService authService, IOrderService orderService)
         {
             _menuService = menuService;
             _tableService = tableService;
             _userService = userService;
             _authService = authService;
-            _httpContextAccessor = httpContextAccessor;
+            _orderService = orderService;
         }
         public IActionResult Index(int table, string category = "none")
         {
@@ -58,7 +57,27 @@ namespace WebUI.Controllers
             {
                 return Unauthorized();
             }
-            
+
+            List<User> waiters = _userService.GetByRole("Waiter");
+            waiters = waiters.OrderBy(o => o.CountOfTable).ToList();
+            int waiter_id = waiters[0].UserId;
+            var waiter = _userService.GetByUserId(waiter_id);
+            waiter.CountOfTable++;
+            _userService.Update(waiter);
+            if (!current_table.IsApproved)
+            {
+                Order order = new Order
+                {
+                    ItemId = _menuService.GetAll().ElementAt(0).ItemId,
+                    TableId = current_table.TableId,
+                    WaiterId = waiter_id,
+                    Quantity = 1,
+                    IsDelivered = false,
+                    IsDummy = true,
+                };
+                _orderService.Add(order);
+            }
+
 
             var menu = _menuService.GetByCategory(category);
             List<MenuItemBasketDto> basket = SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session,"basket");
@@ -71,7 +90,8 @@ namespace WebUI.Controllers
                 Menu = menu,
                 Categories = _menuService.GetCategories(),
                 CurrentCategory = category,
-                Basket = basket
+                Basket = basket,
+                IsApproved = _tableService.GetByTableId(table).IsApproved
             };
             return View(model);
         }
@@ -139,7 +159,8 @@ namespace WebUI.Controllers
                 Menu = menu,
                 Categories = _menuService.GetCategories(),
                 CurrentCategory = category,
-                Basket = basket
+                Basket = basket,
+                IsApproved = _tableService.GetByTableId(table).IsApproved
             };
             return View(model);
         }

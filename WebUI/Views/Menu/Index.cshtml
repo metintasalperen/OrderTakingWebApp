@@ -77,15 +77,15 @@
                         <td style="text-align: center">@item.price ₺</td>
                         <td style="text-align: center">@item_cost ₺</td>
                         <td style="text-align: center">
-                                        <form action="/menu/index?table=@Model.TableNumber&category=@Model.CurrentCategory" method="post">
-                                            <input type="number" name="quantity" value="@item.quantity" min="0" max="50" />
-                                            <input type="hidden" name="itemId" value="@item.itemId">
-                                            <input type="hidden" name="itemName" value="@item.itemName">
-                                            <input type="hidden" name="isUpdate" value="1">
-                                            <input type="hidden" name="price" value="@item.price"><br/>
-                                            <input type="submit" class="btn btn-primary" value="Update" />
-                                        </form>
-                                    </td>
+                            <form action="/menu/index?table=@Model.TableNumber&category=@Model.CurrentCategory" method="post">
+                                <input type="number" name="quantity" value="@item.quantity" min="0" max="50" />
+                                <input type="hidden" name="itemId" value="@item.itemId">
+                                <input type="hidden" name="itemName" value="@item.itemName">
+                                <input type="hidden" name="isUpdate" value="1">
+                                <input type="hidden" name="price" value="@item.price"><br/>
+                                <input type="submit" class="btn btn-primary" value="Update" />
+                            </form>
+                         </td>
                     </tr>
                 }
                     <tr>
@@ -95,7 +95,10 @@
                         <td style="text-align: center">@basket_cost ₺</td>
                         <td style="text-align: center">
                             <form action="/order?table=@Model.TableNumber" method="post">
-                                <input type="submit" class="btn btn-success" value="Give Order!" />
+                                @if (Model.IsApproved)
+                                {
+                                    <input type="submit" class="btn btn-success" value="Give Order!" />
+                                }
                             </form>
                         </td>
                     </tr>

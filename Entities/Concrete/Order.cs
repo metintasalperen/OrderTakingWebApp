@@ -28,5 +28,6 @@ namespace Entities.Concrete
         public User User { get; set; }
         [Required]
         public bool IsDelivered { get; set; }
+        public bool IsDummy { get; set; }
     }
 }

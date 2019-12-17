@@ -14,5 +14,6 @@ namespace WebUI.Models
         public string CurrentCategory { get; set; }
         public List<MenuItemBasketDto> Basket { get; set; }
         public int TableNumber { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

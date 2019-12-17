@@ -3,42 +3,42 @@
     Layout = "~/Views/_WaiterPanelLayout.cshtml";
 }
 
-    <div class="col-4">
-        <table class="table">
+<div class="col-4">
+    <table class="table">
 
-            <tr>
-                <th style="text-align:center">Table</th>
-                <th style="text-align:center">Table Status</th>
-            </tr>
+        <tr>
+            <th style="text-align:center">Table</th>
+            <th style="text-align:center">Table Status</th>
+        </tr>
 
-            @foreach (var table in Model.Table)
+        @foreach (var table in Model.Table)
+        {
+            var css = "list-group-item";
+            if (table.TableId == Model.CurrentTable)
             {
-                var css = "list-group-item";
-                if (table.TableId == Model.CurrentTable)
+                css += " active";
+            }
+            foreach (var item in Model.Orders)
+            {
+                if (item.TableId == table.TableId && item.WaiterId == Model.WaiterId)
                 {
-                    css += " active";
-                }
-                foreach (var item in Model.Orders)
-                {
-                    if (item.TableId == table.TableId && item.WaiterId == Model.WaiterId)
-                    {
-                        <tr>
-                            <th>
-                                <a href="/waiterpanel/index?table=@table.TableId" class="@css">@table.TableId</a>
-                            </th>
+                    <tr>
+                        <th>
+                            <a href="/waiterpanel/index?table=@table.TableId" class="@css">@table.TableId</a>
+                        </th>
 
-                            <th>
-                                <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeAvailable" asp-route-tableId="@item.TableId">Get Account!</a>
-                            </th>
-                        </tr>
+                        <th>
+                            <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeAvailable" asp-route-tableId="@item.TableId">Get Account!</a>
+                        </th>
+                    </tr>
 
-                        break;
+                    break;
 
-                    }
                 }
             }
-        </table>
-    </div>
+        }
+    </table>
+</div>
 
 <div class="col-8">
     <div class="table-responsive">
@@ -70,7 +70,7 @@
 
                         <td style="text-align:center">@item.Quantity</td>
                         <td style="text-align:center">
-                           <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeDelivered" asp-route-orderId="@item.OrderId">Make It Delivered!</a>
+                            <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="MakeDelivered" asp-route-orderId="@item.OrderId">Make It Delivered!</a>
                         </td>
                     </tr>
                 }
@@ -78,3 +78,26 @@
         </table>
     </div>
 </div>
+
+
+@if (Model.DummyOrders.Any())
+{
+
+    <div class="col-12">
+        <table class="table">
+            @foreach (var dummyItem in Model.DummyOrders)
+            {
+                <tr>
+                    <td style="text-align:center">@dummyItem.TableId Requests Login Permission</td>
+                    <td style="text-align:center">
+                        <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="ApproveRequest" asp-route-orderId="@dummyItem.OrderId">Approve Request</a>
+                    </td>
+                    <td style="text-align:center">
+                        <a class="btn btn-xs btn-danger" asp-controller="WaiterPanel" asp-action="DeclineRequest" asp-route-orderId="@dummyItem.OrderId">Decline Request</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+}

@@ -16,5 +16,6 @@ namespace Entities.Concrete
         [Required]
         public bool IsEmpty { get; set; }
         public string Token { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

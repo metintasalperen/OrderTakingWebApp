@@ -29,8 +29,29 @@ namespace WebUI.Controllers
         }
         public IActionResult Index(int table = 0)
         {
-            var orders = _orderService.GetAll();
-            var tableOrders = _orderService.GetByTableId(table);
+            var allOrders = _orderService.GetAll();
+            var dummyOrders = new List<Order>();
+            var orders = new List<Order>();
+            foreach(var item in allOrders)
+            {
+                if (item.IsDummy)
+                {
+                    dummyOrders.Add(item);
+                }
+                else
+                {
+                    orders.Add(item);
+                }
+            }
+            var allTableOrders = _orderService.GetByTableId(table);
+            var tableOrders = new List<Order>();
+            foreach(var item in allTableOrders)
+            {
+                if (!item.IsDummy)
+                {
+                    tableOrders.Add(item);
+                }
+            }
             var menus = _menuService.GetAll();
             var tables = _tableService.GetAll();
 
@@ -48,7 +69,8 @@ namespace WebUI.Controllers
                 Table = tables.ToList(),
                 CurrentTable = table,
                 TableOrders = tableOrders.ToList(),
-                WaiterId = Int32.Parse(userId)
+                WaiterId = Int32.Parse(userId),
+                DummyOrders = dummyOrders,
             };
             return View(model);
         }
@@ -105,15 +127,50 @@ namespace WebUI.Controllers
             if (tableEntity != null)
             {
                 tableEntity.IsEmpty = true;
+                tableEntity.Token = null;
+                tableEntity.IsApproved = false;
                 _tableService.Update(tableEntity);
             }
             var orderEntities = _orderService.GetByTableId(tableId);
+            var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            var waiter = _userService.GetByUserId(Int32.Parse(userId));
+            waiter.CountOfTable--;
+            _userService.Update(waiter);
 
             foreach (var item in orderEntities)
             {
                 _orderService.Delete(item.OrderId);
             }
 
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult ApproveRequest(int orderId)
+        {
+            var dummyOrder = _orderService.GetByOrderId(orderId);
+            var tableId = dummyOrder.TableId;
+            var table = _tableService.GetByTableId(tableId);
+            table.IsApproved = true;
+            _tableService.Update(table);
+
+            _orderService.Delete(orderId);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeclineRequest(int orderId)
+        {
+            var dummyOrder = _orderService.GetByOrderId(orderId);
+            var tableId = dummyOrder.TableId;
+            var table = _tableService.GetByTableId(tableId);
+            var waiterId = dummyOrder.WaiterId;
+            var waiter = _userService.GetByUserId(waiterId);
+            waiter.CountOfTable--;
+            _userService.Update(waiter);
+            table.IsEmpty = true;
+            table.Token = null;
+            _tableService.Update(table);
+
+            _orderService.Delete(orderId);
             return RedirectToAction("Index");
         }
     }

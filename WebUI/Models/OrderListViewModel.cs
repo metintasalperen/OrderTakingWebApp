@@ -15,5 +15,6 @@ namespace WebUI.Models
         public List<Table> Table { get; internal set; }
         public int CurrentTable { get; internal set; }
         public List<Order> TableOrders { get; internal set; }
+        public List<Order> DummyOrders { get; internal set; }
     }
 }

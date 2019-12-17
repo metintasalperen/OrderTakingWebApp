@@ -81,13 +81,6 @@ namespace WebUI.Controllers
                Order order = _orderService.GetByTableIdAndItemId(table, item.itemId);
                if (order == null || order.IsDelivered)
                {
-                   if (order == null)
-                   {
-                       User waiter = _userService.GetByUserId(waiter_id);
-                       waiter.CountOfTable++;
-                       _userService.Update(waiter);
-                   }
-
                    MenuItem ordered_item = _menuService.GetById(item.itemId);
                    ordered_item.Sold += item.quantity;
                    _menuService.Update(ordered_item);
