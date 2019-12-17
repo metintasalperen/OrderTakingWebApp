@@ -60,6 +60,8 @@ namespace WebUI.Controllers
         public IActionResult Index(int table, int dummy)
         {
             List<MenuItemBasketDto> basket = SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session, "basket");
+            if (basket == null)
+                Index(table);
             List<Order> current_orders = _orderService.GetByTableId(table);
             int waiter_id;
 
