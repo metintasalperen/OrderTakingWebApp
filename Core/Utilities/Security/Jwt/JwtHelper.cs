@@ -38,12 +38,12 @@ namespace Core.Utilities.Security.Jwt
                 Expiration = _accessTokenExpiration
             };
         }
-        public AccessToken CreateTokenForCustomer(int tableId, string role, int waiterId)
+        public AccessToken CreateTokenForCustomer(int tableId, string role)
         {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
             var signingCredentials = SigningCredentialHelper.CreateSigningCredentials(securityKey);
-            var jwt = CreateJwtSecurityToken(_tokenOptions, tableId, role, waiterId, signingCredentials);
+            var jwt = CreateJwtSecurityToken(_tokenOptions, tableId, role, signingCredentials);
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
 
@@ -65,7 +65,7 @@ namespace Core.Utilities.Security.Jwt
                 signingCredentials: signingCredentials);
             return jwt;
         }
-        public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, int tableId, string role, int waiterId,
+        public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, int tableId, string role,
             SigningCredentials signingCredentials)
         {
             var jwt = new JwtSecurityToken(
@@ -73,7 +73,7 @@ namespace Core.Utilities.Security.Jwt
                 audience: tokenOptions.Audience,
                 expires: _accessTokenExpiration,
                 notBefore: DateTime.Now,
-                claims: GetClaimsForCustomer(tableId, role, waiterId),
+                claims: GetClaimsForCustomer(tableId, role),
                 signingCredentials: signingCredentials);
             return jwt;
         }
@@ -86,12 +86,11 @@ namespace Core.Utilities.Security.Jwt
             claims.AddRole(operationClaims.Select(c => c.Name).ToArray());
             return claims;
         }
-        public IEnumerable<Claim> GetClaimsForCustomer(int tableId, string role, int waiterId)
+        public IEnumerable<Claim> GetClaimsForCustomer(int tableId, string role)
         {
             var claims = new List<Claim>();
             claims.AddNameIdentifier(tableId.ToString());
             claims.AddRole(role);
-            claims.AddWaiter(waiterId.ToString());
             return claims;
         }
     }

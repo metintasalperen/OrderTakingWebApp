@@ -9,15 +9,15 @@ namespace Core.Utilities.Security.Jwt
     public interface ITokenHelper
     {
         AccessToken CreateToken(User user, List<OperationClaims> operationClaims);
-        AccessToken CreateTokenForCustomer(int tableId, string role, int waiterId);
+        AccessToken CreateTokenForCustomer(int tableId, string role);
 
         JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user,
             SigningCredentials signingCredentials, List<OperationClaims> operationClaims);
 
-        JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, int tableId, string role, int waiterId,
+        JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, int tableId, string role,
             SigningCredentials signingCredentials);
 
         IEnumerable<Claim> GetClaims(User user, List<OperationClaims> operationClaims);
-        IEnumerable<Claim> GetClaimsForCustomer(int tableId, string role, int waiterId);
+        IEnumerable<Claim> GetClaimsForCustomer(int tableId, string role);
     }
 }

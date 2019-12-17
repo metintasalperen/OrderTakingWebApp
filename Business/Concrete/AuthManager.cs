@@ -73,13 +73,13 @@ namespace Business.Concrete
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
-            var claims =_userService.GetClaims(user);
+            var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims);
-            return new SuccessDataResult<AccessToken>(accessToken,Messages.AccessTokenCreated);
+            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
-        public IDataResult<AccessToken> CreateAccessTokenForCustomer(int tableId, string role, int waiterId)
+        public IDataResult<AccessToken> CreateAccessTokenForCustomer(int tableId, string role)
         {
-            var accessToken = _tokenHelper.CreateTokenForCustomer(tableId, role, waiterId);
+            var accessToken = _tokenHelper.CreateTokenForCustomer(tableId, role);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
     }
