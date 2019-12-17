@@ -5,7 +5,7 @@
     decimal item_cost = 0;
 }
 
-    <div class="w-full" style="margin:auto">
+    <div class="w-100" style="margin:auto">
         <a class="list-group-item"><h3>Categories</h3></a>
         @foreach (var category in Model.Categories)
         {
@@ -22,7 +22,7 @@
 
             if (category == Model.CurrentCategory)
             {
-                <div class="w-full">
+                <div class="w-100">
                     <table class="table" align="center">
                         @foreach (var item in Model.Menu)
                         {
@@ -56,7 +56,7 @@
             }
         }
         <br/>
-        <div class="w-full">
+        <div class="w-100">
             <br/>
             <h3 style="text-align:center">Basket</h3>
             <table class="table" align="center">

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Core.Entities.Concrete;
@@ -11,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 using Entities.Dtos;
 using WebUI.ExtensionMethods;
+using RestSharp;
+using System.Security.Claims;
 
 namespace WebUI.Controllers
 {
@@ -19,11 +22,15 @@ namespace WebUI.Controllers
         private IMenuService _menuService;
         private ITableService _tableService;
         private IUserService _userService;
-        public MenuController(IMenuService menuService, ITableService tableService, IUserService userService)
+        private IAuthService _authService;
+        private IHttpContextAccessor _httpContextAccessor;
+        public MenuController(IMenuService menuService, ITableService tableService, IUserService userService, IAuthService authService, IHttpContextAccessor httpContextAccessor)
         {
             _menuService = menuService;
             _tableService = tableService;
             _userService = userService;
+            _authService = authService;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index(int table, string category = "none")
         {
@@ -31,14 +38,28 @@ namespace WebUI.Controllers
             Table current_table = _tableService.GetByTableId(table);
             if (current_table == null)
                 return BadRequest();
-
-            //TODO get token and compare if not emtpty
             if (current_table.IsEmpty)
             {
-                //current_table.IsEmpty = false;
-                //_tableService.Update(current_table);
+                CookieOptions cookie = new CookieOptions();
+                cookie.Expires = DateTimeOffset.Now.AddDays(1);
+                string new_token = _authService.CreateAccessTokenForCustomer(table, "Customer").Data.Token;
+                current_table.Token = new_token;
+                Response.Cookies.Append("token", new_token, cookie);
+                current_table.IsEmpty = false;
+                _tableService.Update(current_table);
+            }
+            else if (HttpContext.Request.Cookies.ContainsKey("token"))
+            {
+                string request_token = HttpContext.Request.Cookies["token"];
+                if (!current_table.Token.Equals(request_token))
+                    return Unauthorized();
+            }
+            else
+            {
+                return Unauthorized();
             }
             
+
             var menu = _menuService.GetByCategory(category);
             List<MenuItemBasketDto> basket = SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session,"basket");
             if (basket == null)
@@ -58,6 +79,20 @@ namespace WebUI.Controllers
         [HttpPost]
         public IActionResult Index(MenuItemBasketDto item, int table, string category = "none")
         {
+            Table current_table = _tableService.GetByTableId(table);
+            if (current_table == null || current_table.IsEmpty)
+                return BadRequest();
+            else if (HttpContext.Request.Cookies.ContainsKey("token"))
+            {
+                string request_token = HttpContext.Request.Cookies["token"];
+                if (!current_table.Token.Equals(request_token))
+                    return Unauthorized();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
             List<MenuItemBasketDto> basket =
                 SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session, "basket");
 
