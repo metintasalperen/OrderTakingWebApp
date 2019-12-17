@@ -1,14 +1,14 @@
 ﻿@model WebUI.Models.TableViewModel
 @{
-    Layout = "~/Views/_Layout.cshtml";
+    Layout = "~/Views/_AdminPanelLayout.cshtml";
 }
 <div class="w-75" style="margin:auto">
-    <a href="/table/index?operation=create">Create Table</a>
-    <a href="/table/index?operation=delete">Delete Table</a>
-    <a href="/table/index?operation=list">List Tables</a>
+    <a href="/adminpanel/table/index?operation=create">Create Table</a>
+    <a href="/adminpanel/table/index?operation=delete">Delete Table</a>
+    <a href="/adminpanel/table/index?operation=list">List Tables</a>
     @if (Model.Action == "list")
     {
-        <form method="post" asp-controller="Table" asp-action="EditTable">
+        <form method="post" asp-controller="AdminPanel" asp-action="EditTable">
             <div class="col-md-10" style="margin:auto">
                 @if (TempData["editMessage"] != null)
                 {
@@ -40,7 +40,7 @@
     }
     else if (Model.Action == "create")
     {
-        <form method="post" asp-controller="Table" asp-action="CreateTable">
+        <form method="post" asp-controller="AdminPanel" asp-action="CreateTable">
             <div class="col-md-10" style="margin:auto">
                 @if (TempData["createMessage"] != null)
                 {
@@ -70,7 +70,7 @@
 
     else if (Model.Action == "delete")
     {
-        <form method="post" asp-controller="Table" asp-action="DeleteTable">
+        <form method="post" asp-controller="AdminPanel" asp-action="DeleteTable">
             <div class="col-md-10" style="margin:auto">
                 @if (TempData["deleteMessage"] != null)
                 {
