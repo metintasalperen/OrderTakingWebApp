@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 using Entities.Dtos;
 using WebUI.ExtensionMethods;
-using RestSharp;
 using System.Security.Claims;
 
 namespace WebUI.Controllers
