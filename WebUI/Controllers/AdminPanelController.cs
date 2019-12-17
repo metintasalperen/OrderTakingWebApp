@@ -11,6 +11,7 @@ using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 using WebUI.Utilities;
@@ -25,14 +26,17 @@ namespace WebUI.Controllers
         private IUserService _userService;
         private ITableService _tableService;
         private readonly IWebHostEnvironment _env;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session => _httpContextAccessor.HttpContext.Session;
 
-        public AdminPanelController(IMenuService menuService, IAuthService authService, IUserService userService, ITableService tableService, IWebHostEnvironment env)
+        public AdminPanelController(IMenuService menuService, IAuthService authService, IUserService userService, ITableService tableService, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
         {
             _menuService = menuService;
             _authService = authService;
             _userService = userService;
             _tableService = tableService;
             _env = env;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Index()
@@ -362,6 +366,11 @@ namespace WebUI.Controllers
                 TempData.Add("message", "Delete failed! " + error);
             }
             return RedirectToAction("Menu");
+        }
+        public IActionResult Logout()
+        {
+            var result = _authService.LogOut(_session);
+            return Redirect("~/account/login");
         }
     }
 }

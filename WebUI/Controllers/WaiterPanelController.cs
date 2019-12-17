@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Constants;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
@@ -20,10 +22,15 @@ namespace WebUI.Controllers
         private IUserService _userService;
         private IMenuService _menuService;
         private ITableService _tableService;
-        public WaiterPanelController(IOrderService orderService, IUserService userService, IMenuService menuService, ITableService tableService)
+        private IAuthService _authService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session => _httpContextAccessor.HttpContext.Session;
+        public WaiterPanelController(IOrderService orderService, IUserService userService, IMenuService menuService, ITableService tableService, IHttpContextAccessor httpContextAccessor, IAuthService authService)
         {
             _orderService = orderService;
             _tableService = tableService;
+            _httpContextAccessor = httpContextAccessor;
+            _authService = authService;
             _menuService = menuService;
             _userService = userService;
         }
@@ -172,6 +179,12 @@ namespace WebUI.Controllers
 
             _orderService.Delete(orderId);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Logout()
+        {
+            var result = _authService.LogOut(_session);
+            return Redirect("~/account/login");
         }
     }
 }
