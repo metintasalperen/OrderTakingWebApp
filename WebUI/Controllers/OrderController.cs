@@ -17,15 +17,35 @@ namespace WebUI.Controllers
         private IOrderService _orderService;
         private IMenuService _menuService;
         private IUserService _userService;
-        public OrderController(IOrderService orderService, IMenuService menuService, IUserService userService)
+        private ITableService _tableService;
+        public OrderController(IOrderService orderService, IMenuService menuService, IUserService userService, ITableService tableService)
         {
             _orderService = orderService;
             _menuService = menuService;
             _userService = userService;
+            _tableService = tableService;
         }
 
         public IActionResult Index(int table)
         {
+            Table current_table = _tableService.GetByTableId(table);
+            if (current_table == null || current_table.IsEmpty)
+                return BadRequest();
+            else if (HttpContext.Request.Cookies.ContainsKey("token"))
+            {
+                string request_token = HttpContext.Request.Cookies["token"];
+                if (!current_table.Token.Equals(request_token))
+                    return Unauthorized();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+            if (!current_table.IsApproved)
+            {
+                return Unauthorized();
+            }
             List<Order> orders = _orderService.GetByTableId(table);
 
             if (orders == null)
@@ -59,9 +79,28 @@ namespace WebUI.Controllers
         [HttpPost]
         public IActionResult Index(int table, int dummy)
         {
+            Table current_table = _tableService.GetByTableId(table);
+            if (current_table == null || current_table.IsEmpty)
+                return BadRequest();
+            else if (HttpContext.Request.Cookies.ContainsKey("token"))
+            {
+                string request_token = HttpContext.Request.Cookies["token"];
+                if (!current_table.Token.Equals(request_token))
+                    return Unauthorized();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+            if (!current_table.IsApproved)
+            {
+                return Unauthorized();
+            }
+
             List<MenuItemBasketDto> basket = SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session, "basket");
             if (basket == null)
-                Index(table);
+                return RedirectToAction("Index", new {table});
             List<Order> current_orders = _orderService.GetByTableId(table);
             int waiter_id;
 

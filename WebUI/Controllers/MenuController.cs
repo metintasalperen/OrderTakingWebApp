@@ -45,6 +45,7 @@ namespace WebUI.Controllers
                 current_table.Token = new_token;
                 Response.Cookies.Append("token", new_token, cookie);
                 current_table.IsEmpty = false;
+                current_table.IsApproved = false;
                 _tableService.Update(current_table);
             }
             else if (HttpContext.Request.Cookies.ContainsKey("token"))
@@ -123,6 +124,11 @@ namespace WebUI.Controllers
                     return Unauthorized();
             }
             else
+            {
+                return Unauthorized();
+            }
+
+            if (!current_table.IsApproved)
             {
                 return Unauthorized();
             }

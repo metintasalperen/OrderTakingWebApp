@@ -4,7 +4,7 @@
     decimal basket_cost = 0;
     decimal item_cost = 0;
 }
-
+<h2 style="margin: auto">Table : @Model.TableNumber</h2>
 <div class="w-75" style="margin: auto">
     <a class="list-group-item list-group-item"><h3>My Orders</h3></a>
     <a class="list-group-item list-group-item-info">Delivered</a>
@@ -18,14 +18,17 @@
             </tr>
             @foreach (var item in Model.DeliveredOrders)
             {
-                item_cost = item.MenuItem.Price * item.Quantity;
-                basket_cost += item_cost;
-                <tr>
-                    <td style="text-align: center" width="25%">@item.MenuItem.Name</td>
-                    <td style="text-align: center" width="25%">@item.Quantity</td>
-                    <td style="text-align: center" width="25%">@item.MenuItem.Price ₺</td>
-                    <td style="text-align: center" width="25%">@item_cost ₺</td>
-                </tr>
+                if (!item.IsDummy)
+                {
+                    item_cost = item.MenuItem.Price * item.Quantity;
+                    basket_cost += item_cost;
+                    <tr>
+                        <td style="text-align: center" width="25%">@item.MenuItem.Name</td>
+                        <td style="text-align: center" width="25%">@item.Quantity</td>
+                        <td style="text-align: center" width="25%">@item.MenuItem.Price ₺</td>
+                        <td style="text-align: center" width="25%">@item_cost ₺</td>
+                    </tr>
+                }
             }
         </table>
     </div>
@@ -41,14 +44,17 @@
             </tr>
             @foreach (var item in Model.NotDeliveredOrders)
             {
-                item_cost = item.MenuItem.Price * item.Quantity;
-                basket_cost += item_cost;
-                <tr>
-                    <td style="text-align: center" width="25%">@item.MenuItem.Name</td>
-                    <td style="text-align: center" width="25%">@item.Quantity</td>
-                    <td style="text-align: center" width="25%">@item.MenuItem.Price ₺</td>
-                    <td style="text-align: center" width="25%">@item_cost ₺</td>
-                </tr>
+                if (!item.IsDummy)
+                {
+                    item_cost = item.MenuItem.Price * item.Quantity;
+                    basket_cost += item_cost;
+                    <tr>
+                        <td style="text-align: center" width="25%">@item.MenuItem.Name</td>
+                        <td style="text-align: center" width="25%">@item.Quantity</td>
+                        <td style="text-align: center" width="25%">@item.MenuItem.Price ₺</td>
+                        <td style="text-align: center" width="25%">@item_cost ₺</td>
+                    </tr>
+                }
             }
             <tr>
                 <td style="text-align: center" width="25%"></td>
