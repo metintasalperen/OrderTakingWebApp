@@ -61,9 +61,8 @@ namespace WebUI.Controllers
             List<User> waiters = _userService.GetByRole("Waiter");
             waiters = waiters.OrderBy(o => o.CountOfTable).ToList();
             int waiter_id = waiters[0].UserId;
-            var waiter = _userService.GetByUserId(waiter_id);
-            waiter.CountOfTable++;
-            _userService.Update(waiter);
+            var waiter = waiters[0];
+            
             if (!current_table.IsApproved)
             {
                 var tableOrders = _orderService.GetByTableId(current_table.TableId);
@@ -78,6 +77,8 @@ namespace WebUI.Controllers
                 }
                 if (!dummy)
                 {
+                    waiter.CountOfTable++;
+                    _userService.Update(waiter);
                     Order order = new Order
                     {
                         ItemId = _menuService.GetAll().ElementAt(0).ItemId,
