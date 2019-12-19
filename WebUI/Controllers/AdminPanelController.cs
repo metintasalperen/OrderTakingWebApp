@@ -18,7 +18,7 @@ using WebUI.Utilities;
 
 namespace WebUI.Controllers
 {
-    //[Authorize(Roles = Roles.Admin)]
+    [Authorize(Roles = Roles.Admin)]
     public class AdminPanelController : Controller
     {
         private IMenuService _menuService;

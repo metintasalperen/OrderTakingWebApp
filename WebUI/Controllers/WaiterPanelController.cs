@@ -88,7 +88,7 @@ namespace WebUI.Controllers
             
             IEnumerable<Order> sameMenuItemWithDelivered = //query variable
                  from order in allEntities //required
-                 where order.ItemId == entity.ItemId && order.TableId == entity.TableId && order.IsDelivered == true && order.IsDummy == false
+                 where order.ItemId == entity.ItemId && order.TableId == entity.TableId && order.IsDelivered == true
                  select order; //must end with select or group
 
             List<Order> sameMenuItemWithDeliveredList = sameMenuItemWithDelivered.ToList();
@@ -112,19 +112,8 @@ namespace WebUI.Controllers
         }
         public IActionResult MakeAvailable(int tableId)
         {
-            //var allEntities = _orderService.GetAll();
-            //IEnumerable<Order> sameMenuItemWithDelivered = //query variable
-
-            //from order in allEntities //required
-            //     where order.IsDummy == true && order.TableId == tableId
-            //     select order; //must end with select or group
-
-            //List<Order> sameMenuItemWithDeliveredList = sameMenuItemWithDelivered.ToList();
-            //_orderService.Delete(sameMenuItemWithDeliveredList[0].OrderId);
-            
             var orders = _orderService.GetAll();
             var tableOrders = _orderService.GetByTableId(tableId);
-    
             var menus = _menuService.GetAll();
             var tables = _tableService.GetAll();
             var userId = User.Claims.Where(a => a.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
