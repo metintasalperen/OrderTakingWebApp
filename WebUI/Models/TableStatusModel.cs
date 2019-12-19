@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace WebUI.Models
 {
-    public class RefreshModel
+    public class TableStatusModel
     {
         public int TableNumber;
-        public bool Status;
     }
 }

@@ -48,12 +48,12 @@ namespace WebUI.Controllers
                     documentContents = await readStream.ReadToEndAsync();
                 }
             }
-            RefreshModel model = JsonConvert.DeserializeObject<RefreshModel>(documentContents);
+            TableStatusModel model = JsonConvert.DeserializeObject<TableStatusModel>(documentContents);
             var orders = _orderService.GetByTableId(model.TableNumber);
             
             foreach(var item in orders)
             {
-                if (item.IsDummy == true)
+                if (item.IsDummy == true && item.IsDelivered == false)
                 {
                     return Json(new { Status = "pending" });
                 }

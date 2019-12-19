@@ -41,7 +41,7 @@ namespace WebUI.Controllers
             var orders = new List<Order>();
             foreach(var item in allOrders)
             {
-                if (item.IsDummy)
+                if (item.IsDummy && !item.IsDelivered)
                 {
                     dummyOrders.Add(item);
                 }
@@ -160,7 +160,9 @@ namespace WebUI.Controllers
             table.IsApproved = true;
             _tableService.Update(table);
 
-            _orderService.Delete(orderId);
+            dummyOrder.IsDelivered = true;
+            _orderService.Update(dummyOrder);
+            //_orderService.Delete(orderId);
             return RedirectToAction("Index");
         }
 

@@ -92,7 +92,7 @@
             @foreach (var dummyItem in Model.DummyOrders)
             {
                 <tr>
-                    <td style="text-align:center">@dummyItem.TableId Requests Login Permission</td>
+                    <td style="text-align:center">Table @dummyItem.TableId Requests Login Permission</td>
                     <td style="text-align:center">
                         <a class="btn btn-xs btn-success" asp-controller="WaiterPanel" asp-action="ApproveRequest" asp-route-orderId="@dummyItem.OrderId">Approve Request</a>
                     </td>
