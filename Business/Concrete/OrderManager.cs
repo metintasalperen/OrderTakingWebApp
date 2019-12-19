@@ -44,7 +44,7 @@ namespace Business.Concrete
 
         public Order GetByTableIdAndItemId(int tableId, int itemId)
         {
-            return _orderDal.Get(p => p.TableId == tableId && p.ItemId == itemId);
+            return _orderDal.Get(p => p.TableId == tableId && p.ItemId == itemId && p.IsDummy == false && p.IsDelivered == false);
         }
     }
 }

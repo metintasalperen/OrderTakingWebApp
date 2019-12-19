@@ -18,7 +18,7 @@
 
                 @foreach (var item in Model.TableOrders)
                 {
-                    if (item.IsDelivered == true)
+                    if (item.IsDelivered == true && item.IsDummy == false)
                     {
                         @foreach (var menuitem in Model.Menu)
                             if (item.ItemId == menuitem.ItemId)
