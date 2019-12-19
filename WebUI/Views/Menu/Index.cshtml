@@ -98,10 +98,14 @@
                                 @if (Model.IsApproved)
                                 {
                                     <input type="submit" class="btn btn-success" value="Give Order!" />
+
+                                    <div style="text-align:right">
+                                        <button class="btn btn-success" href="/menu/requestwaiter?table=@Model.TableNumber">Request Waiter</button>
+                                    </div>
                                 }
                                 @if (!Model.IsApproved)
                                 {
-                                <script>
+                                    <script>
                                     var body = {
                                         TableNumber: @Model.TableNumber,
                                     };
@@ -134,7 +138,7 @@
                                         }, 10000);
                                     }
                                     checkStatus();
-                                  </script>
+                                    </script>
                                 }
                             </form>
                         </td>
