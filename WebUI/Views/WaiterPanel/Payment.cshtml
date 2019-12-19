@@ -21,7 +21,7 @@
                     if (item.IsDelivered == true)
                     {
                         @foreach (var menuitem in Model.Menu)
-                            if (item.ItemId == menuitem.ItemId)
+                            if (item.ItemId == menuitem.ItemId && item.IsDummy == false)
                             {
                                 item_cost = menuitem.Price * item.Quantity;
                                 basket_cost += item_cost;

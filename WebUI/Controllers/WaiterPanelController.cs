@@ -88,7 +88,7 @@ namespace WebUI.Controllers
             
             IEnumerable<Order> sameMenuItemWithDelivered = //query variable
                  from order in allEntities //required
-                 where order.ItemId == entity.ItemId && order.TableId == entity.TableId && order.IsDelivered == true
+                 where order.ItemId == entity.ItemId && order.TableId == entity.TableId && order.IsDelivered == true && order.IsDummy == false
                  select order; //must end with select or group
 
             List<Order> sameMenuItemWithDeliveredList = sameMenuItemWithDelivered.ToList();
