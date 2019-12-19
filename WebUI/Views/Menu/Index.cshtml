@@ -98,10 +98,14 @@
                                 @if (Model.IsApproved)
                                 {
                                     <input type="submit" class="btn btn-success" value="Give Order!" />
+                                    @if (TempData["emptyOrder"] != null)
+                                    {
+                                        <div class="alert alert-danger col-md-offset-4" align="center"> @TempData["emptyOrder"]</div>
+                                    }
                                 }
                                 @if (!Model.IsApproved)
                                 {
-                                <script>
+                                    <script>
                                     var body = {
                                         TableNumber: @Model.TableNumber,
                                     };
@@ -134,7 +138,7 @@
                                         }, 10000);
                                     }
                                     checkStatus();
-                                  </script>
+                                    </script>
                                 }
                             </form>
                         </td>

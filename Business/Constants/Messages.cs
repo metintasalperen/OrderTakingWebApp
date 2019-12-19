@@ -13,5 +13,7 @@ namespace Business.Constants
         public static string AccessTokenCreated = "Access Token is created!";
         public static string LogoutSuccessful = "Logout is successful!";
         public static string LogoutFailed = "Logout is failed!";
+        public static string EmptyOrder = "Basket cannot be empty!";
+
     }
 }

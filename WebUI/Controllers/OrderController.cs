@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Constants;
+
 using Core.Entities.Concrete;
 using Entities.Concrete;
 using Entities.Dtos;
@@ -100,7 +102,10 @@ namespace WebUI.Controllers
 
             List<MenuItemBasketDto> basket = SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session, "basket");
             if (basket == null)
-                return RedirectToAction("Index", "Menu", new {table});
+            {
+                TempData.Add("emptyOrder", Messages.EmptyOrder);
+                return RedirectToAction("Index", "Menu", new { table });
+            }
             List<Order> current_orders = _orderService.GetByTableId(table);
             int waiter_id;
 
