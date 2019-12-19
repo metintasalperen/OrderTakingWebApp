@@ -100,7 +100,7 @@ namespace WebUI.Controllers
 
             List<MenuItemBasketDto> basket = SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session, "basket");
             if (basket == null)
-                return RedirectToAction("Index", new {table});
+                return RedirectToAction("Index", "Menu", new {table});
             List<Order> current_orders = _orderService.GetByTableId(table);
             int waiter_id;
 
