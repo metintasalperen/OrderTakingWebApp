@@ -101,7 +101,40 @@
                                 }
                                 @if (!Model.IsApproved)
                                 {
-                                    <meta http-equiv="refresh" content="5">
+                                <script>
+                                    var body = {
+                                        TableNumber: @Model.TableNumber,
+                                    };
+                                    const headers = new Headers();
+                                    headers.append('Content-Type', 'application/json');
+                                    const options = {
+                                        method: 'POST',
+                                        headers: headers,
+                                        body: JSON.stringify(body),
+                                    }
+
+                                    function checkStatus() {
+                                        setInterval(async () => {
+                                            fetch('tablestatus/status', options)
+                                                .then(response => response.json())
+                                                .then(json => {
+                                                    console.log(json.status);
+                                                    if (json.status === "approved") {
+                                                        console.log("table approved reloading:" + json.status);
+                                                        window.location.reload();
+                                                    }
+                                                    else if (json.status === "rejected") {
+                                                        console.log("table rejected redirecting:" + json.status);
+                                                        window.location.replace("../");
+                                                    }
+                                                },
+                                                (error) => {
+                                                    console.log(error);
+                                                });
+                                        }, 10000);
+                                    }
+                                    checkStatus();
+                                  </script>
                                 }
                             </form>
                         </td>
@@ -109,3 +142,5 @@
             </table>
         </div>
     </div>
+
+    
