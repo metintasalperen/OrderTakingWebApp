@@ -117,8 +117,8 @@ namespace WebUI.Controllers
 
             foreach (var item in basket)
             {
-               Order order = _orderService.GetByTableIdAndItemId(table, item.itemId);
-               if (order == null || order.IsDelivered)
+               Order order = _orderService.GetByTableIdAndItemIdAndIsDelivered(table, item.itemId, false);
+               if (order == null)
                {
                    MenuItem ordered_item = _menuService.GetById(item.itemId);
                    ordered_item.Sold += item.quantity;

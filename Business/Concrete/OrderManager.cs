@@ -42,9 +42,9 @@ namespace Business.Concrete
             _orderDal.Delete(new Order { OrderId = orderId });
         }
 
-        public Order GetByTableIdAndItemId(int tableId, int itemId)
+        public Order GetByTableIdAndItemIdAndIsDelivered(int tableId, int itemId, bool isDelivered)
         {
-            return _orderDal.Get(p => p.TableId == tableId && p.ItemId == itemId && p.IsDelivered == false && p.IsDummy == false);
+            return _orderDal.Get(p => p.TableId == tableId && p.ItemId == itemId && p.IsDelivered == isDelivered && p.IsDummy == false);
         }
     }
 }
