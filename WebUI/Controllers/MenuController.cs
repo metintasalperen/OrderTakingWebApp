@@ -128,11 +128,6 @@ namespace WebUI.Controllers
                 return Unauthorized();
             }
 
-            if (!current_table.IsApproved)
-            {
-                return Unauthorized();
-            }
-
             List<MenuItemBasketDto> basket =
                 SessionExtensionMethods.GetObject<List<MenuItemBasketDto>>(HttpContext.Session, "basket");
 
